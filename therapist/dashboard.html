@@ -1,0 +1,1329 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <meta name="theme-color"
+          content="#f8fafc">
+
+    <meta name="description"
+          content="KIDORA Therapist Dashboard">
+
+    <title>KIDORA | Therapist Dashboard</title>
+
+
+    <!-- FONT -->
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+
+
+    <!-- FONT AWESOME -->
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+
+    <!-- CHART.JS -->
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+    <!-- SUPABASE -->
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+
+    <!-- CSS -->
+
+    <link rel="stylesheet"
+          href="../css/main.css">
+
+    <link rel="stylesheet"
+          href="therapist.css">
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     APP
+========================================================= -->
+
+<div class="app">
+
+
+    <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
+
+    <aside class="sidebar"
+           id="sidebar">
+
+
+        <!-- LOGO -->
+
+        <a href="../index.html"
+           class="brand">
+
+            <div class="brand-icon">
+                <i class="fa-solid fa-brain"></i>
+            </div>
+
+            <div class="brand-name">
+                <span>KID</span><strong>ORA</strong>
+            </div>
+
+        </a>
+
+
+        <!-- THERAPIST PROFILE -->
+
+        <div class="sidebar-profile">
+
+            <div class="avatar therapist-avatar"
+                 id="sidebarAvatar">
+
+                DR
+
+            </div>
+
+            <div>
+
+                <strong id="sidebarName">
+                    Therapist
+                </strong>
+
+                <span>
+                    Occupational Therapist
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- NAVIGATION -->
+
+        <nav class="sidebar-nav">
+
+
+            <div class="nav-section-title">
+                OVERVIEW
+            </div>
+
+
+            <a href="#overview"
+               class="nav-item active">
+
+                <i class="fa-solid fa-chart-pie"></i>
+
+                <span>Dashboard</span>
+
+            </a>
+
+
+            <a href="#children"
+               class="nav-item">
+
+                <i class="fa-solid fa-children"></i>
+
+                <span>My Children</span>
+
+                <span class="nav-badge"
+                      id="childrenNavBadge">
+                    0
+                </span>
+
+            </a>
+
+
+            <a href="#sessions"
+               class="nav-item">
+
+                <i class="fa-solid fa-calendar-check"></i>
+
+                <span>Sessions</span>
+
+            </a>
+
+
+            <a href="#progress"
+               class="nav-item">
+
+                <i class="fa-solid fa-chart-line"></i>
+
+                <span>Progress</span>
+
+            </a>
+
+
+            <div class="nav-section-title">
+                MANAGEMENT
+            </div>
+
+
+            <a href="#alerts"
+               class="nav-item">
+
+                <i class="fa-solid fa-bell"></i>
+
+                <span>Alerts</span>
+
+                <span class="nav-badge danger"
+                      id="alertsNavBadge">
+                    0
+                </span>
+
+            </a>
+
+
+            <a href="#reports"
+               class="nav-item">
+
+                <i class="fa-solid fa-file-lines"></i>
+
+                <span>Reports</span>
+
+            </a>
+
+
+            <a href="#messages"
+               class="nav-item">
+
+                <i class="fa-solid fa-comments"></i>
+
+                <span>Messages</span>
+
+            </a>
+
+
+            <div class="nav-section-title">
+                ACCOUNT
+            </div>
+
+
+            <a href="#settings"
+               class="nav-item">
+
+                <i class="fa-solid fa-gear"></i>
+
+                <span>Settings</span>
+
+            </a>
+
+        </nav>
+
+
+        <!-- SIDEBAR FOOTER -->
+
+        <div class="sidebar-footer">
+
+            <button class="logout-button"
+                    id="logoutButton">
+
+                <i class="fa-solid fa-right-from-bracket"></i>
+
+                <span>Sign Out</span>
+
+            </button>
+
+        </div>
+
+    </aside>
+
+
+    <!-- =====================================================
+         MAIN
+    ====================================================== -->
+
+    <main class="main">
+
+
+        <!-- TOPBAR -->
+
+        <header class="topbar">
+
+
+            <button class="mobile-menu"
+                    id="mobileMenu">
+
+                <i class="fa-solid fa-bars"></i>
+
+            </button>
+
+
+            <div class="page-heading">
+
+                <span class="eyebrow">
+                    THERAPIST PORTAL
+                </span>
+
+                <h1 id="welcomeTitle">
+                    Good afternoon
+                </h1>
+
+                <p>
+                    Here's what's happening with your patients.
+                </p>
+
+            </div>
+
+
+            <div class="topbar-actions">
+
+
+                <!-- SEARCH -->
+
+                <button class="icon-button"
+                        id="globalSearchButton"
+                        aria-label="Search">
+
+                    <i class="fa-solid fa-magnifying-glass"></i>
+
+                </button>
+
+
+                <!-- NOTIFICATION -->
+
+                <button class="icon-button notification-button"
+                        id="notificationButton"
+                        aria-label="Notifications">
+
+                    <i class="fa-solid fa-bell"></i>
+
+                    <span class="notification-dot"
+                          id="notificationDot"></span>
+
+                </button>
+
+
+                <!-- PROFILE -->
+
+                <button class="top-profile"
+                        id="profileButton">
+
+                    <div class="avatar small"
+                         id="topAvatar">
+                        DR
+                    </div>
+
+                    <div class="top-profile-info">
+
+                        <strong id="topName">
+                            Therapist
+                        </strong>
+
+                        <span>
+                            Therapist
+                        </span>
+
+                    </div>
+
+                    <i class="fa-solid fa-chevron-down"></i>
+
+                </button>
+
+            </div>
+
+        </header>
+
+
+        <!-- SEARCH BAR -->
+
+        <div class="search-panel"
+             id="searchPanel">
+
+            <i class="fa-solid fa-magnifying-glass"></i>
+
+            <input type="search"
+                   id="globalSearch"
+                   placeholder="Search children, sessions or alerts...">
+
+            <button id="closeSearch">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+        </div>
+
+
+        <!-- CONTENT -->
+
+        <div class="content">
+
+
+            <!-- =================================================
+                 OVERVIEW
+            ================================================== -->
+
+            <section id="overview"
+                     class="dashboard-section">
+
+
+                <!-- STAT CARDS -->
+
+                <div class="stats-grid">
+
+
+                    <article class="stat-card">
+
+                        <div class="stat-icon blue">
+                            <i class="fa-solid fa-children"></i>
+                        </div>
+
+                        <div class="stat-content">
+
+                            <span>
+                                Total Children
+                            </span>
+
+                            <strong id="totalChildren">
+                                0
+                            </strong>
+
+                            <small class="positive">
+                                <i class="fa-solid fa-arrow-up"></i>
+                                <span id="childrenGrowth">
+                                    0%
+                                </span>
+                                this month
+                            </small>
+
+                        </div>
+
+                    </article>
+
+
+                    <article class="stat-card">
+
+                        <div class="stat-icon green">
+                            <i class="fa-solid fa-circle-play"></i>
+                        </div>
+
+                        <div class="stat-content">
+
+                            <span>
+                                Active Sessions
+                            </span>
+
+                            <strong id="activeSessions">
+                                0
+                            </strong>
+
+                            <small>
+                                Currently in therapy
+                            </small>
+
+                        </div>
+
+                    </article>
+
+
+                    <article class="stat-card">
+
+                        <div class="stat-icon orange">
+                            <i class="fa-solid fa-bell"></i>
+                        </div>
+
+                        <div class="stat-content">
+
+                            <span>
+                                Pending Alerts
+                            </span>
+
+                            <strong id="pendingAlerts">
+                                0
+                            </strong>
+
+                            <small class="warning">
+                                Requires attention
+                            </small>
+
+                        </div>
+
+                    </article>
+
+
+                    <article class="stat-card">
+
+                        <div class="stat-icon purple">
+                            <i class="fa-solid fa-chart-line"></i>
+                        </div>
+
+                        <div class="stat-content">
+
+                            <span>
+                                Avg. Progress
+                            </span>
+
+                            <strong>
+                                <span id="averageProgress">
+                                    0
+                                </span>%
+                            </strong>
+
+                            <small class="positive">
+                                <i class="fa-solid fa-arrow-up"></i>
+                                Improving
+                            </small>
+
+                        </div>
+
+                    </article>
+
+                </div>
+
+
+                <!-- MAIN DASHBOARD GRID -->
+
+                <div class="dashboard-grid">
+
+
+                    <!-- PROGRESS CHART -->
+
+                    <article class="panel progress-panel">
+
+                        <div class="panel-header">
+
+                            <div>
+
+                                <span class="panel-label">
+                                    PERFORMANCE
+                                </span>
+
+                                <h2>
+                                    Overall Progress
+                                </h2>
+
+                            </div>
+
+
+                            <select id="progressRange">
+
+                                <option value="7">
+                                    Last 7 days
+                                </option>
+
+                                <option value="30"
+                                        selected>
+                                    Last 30 days
+                                </option>
+
+                                <option value="90">
+                                    Last 3 months
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="chart-container">
+
+                            <canvas id="progressChart"></canvas>
+
+                        </div>
+
+                    </article>
+
+
+                    <!-- ALERTS -->
+
+                    <article class="panel alerts-panel"
+                             id="alerts">
+
+                        <div class="panel-header">
+
+                            <div>
+
+                                <span class="panel-label">
+                                    ATTENTION
+                                </span>
+
+                                <h2>
+                                    Recent Alerts
+                                </h2>
+
+                            </div>
+
+                            <button class="text-button"
+                                    onclick="scrollToSection('alertsSection')">
+
+                                View all
+
+                                <i class="fa-solid fa-arrow-right"></i>
+
+                            </button>
+
+                        </div>
+
+
+                        <div class="alert-list"
+                             id="dashboardAlerts">
+
+                        </div>
+
+                    </article>
+
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 CHILDREN
+            ================================================== -->
+
+            <section id="children"
+                     class="dashboard-section">
+
+
+                <div class="section-header">
+
+                    <div>
+
+                        <span class="eyebrow">
+                            PATIENTS
+                        </span>
+
+                        <h2>
+                            My Children
+                        </h2>
+
+                        <p>
+                            Monitor and manage your assigned children.
+                        </p>
+
+                    </div>
+
+
+                    <button class="btn btn-primary"
+                            id="addChildButton">
+
+                        <i class="fa-solid fa-plus"></i>
+
+                        Add Child
+
+                    </button>
+
+                </div>
+
+
+                <!-- CONTROLS -->
+
+                <div class="table-controls">
+
+                    <div class="table-search">
+
+                        <i class="fa-solid fa-magnifying-glass"></i>
+
+                        <input type="search"
+                               id="childSearch"
+                               placeholder="Search children...">
+
+                    </div>
+
+
+                    <select id="statusFilter">
+
+                        <option value="all">
+                            All Status
+                        </option>
+
+                        <option value="active">
+                            Active
+                        </option>
+
+                        <option value="attention">
+                            Needs Attention
+                        </option>
+
+                        <option value="inactive">
+                            Inactive
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- CHILD TABLE -->
+
+                <div class="table-panel">
+
+                    <div class="table-wrapper">
+
+                        <table>
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>
+                                        Child
+                                    </th>
+
+                                    <th>
+                                        Status
+                                    </th>
+
+                                    <th>
+                                        Last Session
+                                    </th>
+
+                                    <th>
+                                        Progress
+                                    </th>
+
+                                    <th>
+                                        Sessions
+                                    </th>
+
+                                    <th>
+                                        Action
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody id="childrenTable">
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 SESSIONS
+            ================================================== -->
+
+            <section id="sessions"
+                     class="dashboard-section">
+
+
+                <div class="section-header">
+
+                    <div>
+
+                        <span class="eyebrow">
+                            THERAPY
+                        </span>
+
+                        <h2>
+                            Recent Sessions
+                        </h2>
+
+                        <p>
+                            Review your latest therapy sessions.
+                        </p>
+
+                    </div>
+
+
+                    <button class="btn btn-secondary"
+                            id="newSessionButton">
+
+                        <i class="fa-solid fa-calendar-plus"></i>
+
+                        New Session
+
+                    </button>
+
+                </div>
+
+
+                <div class="sessions-grid"
+                     id="sessionsGrid">
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 PROGRESS
+            ================================================== -->
+
+            <section id="progress"
+                     class="dashboard-section">
+
+
+                <div class="section-header">
+
+                    <div>
+
+                        <span class="eyebrow">
+                            ANALYTICS
+                        </span>
+
+                        <h2>
+                            Child Progress
+                        </h2>
+
+                        <p>
+                            Track individual performance over time.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="progress-grid"
+                     id="childProgressGrid">
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 ALERTS FULL
+            ================================================== -->
+
+            <section id="alertsSection"
+                     class="dashboard-section">
+
+
+                <div class="section-header">
+
+                    <div>
+
+                        <span class="eyebrow">
+                            MONITORING
+                        </span>
+
+                        <h2>
+                            Alerts
+                        </h2>
+
+                        <p>
+                            Important events requiring your attention.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="full-alert-list"
+                     id="fullAlertList">
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 REPORTS
+            ================================================== -->
+
+            <section id="reports"
+                     class="dashboard-section">
+
+                <div class="section-header">
+
+                    <div>
+
+                        <span class="eyebrow">
+                            REPORTING
+                        </span>
+
+                        <h2>
+                            Reports
+                        </h2>
+
+                        <p>
+                            Generate and review therapy reports.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="report-grid">
+
+
+                    <article class="report-card">
+
+                        <div class="report-icon">
+                            <i class="fa-solid fa-file-medical"></i>
+                        </div>
+
+                        <div>
+
+                            <h3>
+                                Child Progress Report
+                            </h3>
+
+                            <p>
+                                Generate a detailed progress report.
+                            </p>
+
+                        </div>
+
+                        <button class="icon-button">
+                            <i class="fa-solid fa-download"></i>
+                        </button>
+
+                    </article>
+
+
+                    <article class="report-card">
+
+                        <div class="report-icon">
+                            <i class="fa-solid fa-chart-column"></i>
+                        </div>
+
+                        <div>
+
+                            <h3>
+                                Monthly Analytics
+                            </h3>
+
+                            <p>
+                                View monthly therapy statistics.
+                            </p>
+
+                        </div>
+
+                        <button class="icon-button">
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+
+                    </article>
+
+
+                    <article class="report-card">
+
+                        <div class="report-icon">
+                            <i class="fa-solid fa-calendar-days"></i>
+                        </div>
+
+                        <div>
+
+                            <h3>
+                                Session Summary
+                            </h3>
+
+                            <p>
+                                Review completed therapy sessions.
+                            </p>
+
+                        </div>
+
+                        <button class="icon-button">
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+
+                    </article>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 MESSAGES
+            ================================================== -->
+
+            <section id="messages"
+                     class="dashboard-section">
+
+                <div class="empty-section">
+
+                    <div class="empty-icon">
+                        <i class="fa-solid fa-comments"></i>
+                    </div>
+
+                    <h2>
+                        Messages
+                    </h2>
+
+                    <p>
+                        Secure communication with children and guardians
+                        will appear here.
+                    </p>
+
+                    <button class="btn btn-primary">
+                        Open Messages
+                    </button>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 SETTINGS
+            ================================================== -->
+
+            <section id="settings"
+                     class="dashboard-section">
+
+                <div class="section-header">
+
+                    <div>
+
+                        <span class="eyebrow">
+                            ACCOUNT
+                        </span>
+
+                        <h2>
+                            Settings
+                        </h2>
+
+                        <p>
+                            Manage your KIDORA therapist account.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="settings-card">
+
+                    <div class="setting-row">
+
+                        <div>
+
+                            <strong>
+                                Notifications
+                            </strong>
+
+                            <span>
+                                Receive alerts about assigned children.
+                            </span>
+
+                        </div>
+
+                        <label class="switch">
+
+                            <input type="checkbox"
+                                   checked>
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="setting-row">
+
+                        <div>
+
+                            <strong>
+                                Email Updates
+                            </strong>
+
+                            <span>
+                                Receive weekly therapy summaries.
+                            </span>
+
+                        </div>
+
+                        <label class="switch">
+
+                            <input type="checkbox"
+                                   checked>
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="setting-row">
+
+                        <div>
+
+                            <strong>
+                                Dark Mode
+                            </strong>
+
+                            <span>
+                                Change the dashboard appearance.
+                            </span>
+
+                        </div>
+
+                        <label class="switch">
+
+                            <input type="checkbox"
+                                   id="darkModeToggle">
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<!-- =========================================================
+     CHILD MODAL
+========================================================= -->
+
+<div class="modal-overlay"
+     id="childModal">
+
+    <div class="modal">
+
+        <button class="modal-close"
+                data-close-modal>
+
+            <i class="fa-solid fa-xmark"></i>
+
+        </button>
+
+
+        <div class="modal-header">
+
+            <div class="avatar large"
+                 id="modalChildAvatar">
+                CH
+            </div>
+
+            <div>
+
+                <span class="panel-label">
+                    CHILD PROFILE
+                </span>
+
+                <h2 id="modalChildName">
+                    Child
+                </h2>
+
+                <p id="modalChildId">
+                    KIDORA ID
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="modal-stats">
+
+            <div>
+
+                <span>
+                    Progress
+                </span>
+
+                <strong id="modalProgress">
+                    0%
+                </strong>
+
+            </div>
+
+            <div>
+
+                <span>
+                    Sessions
+                </span>
+
+                <strong id="modalSessions">
+                    0
+                </strong>
+
+            </div>
+
+            <div>
+
+                <span>
+                    Status
+                </span>
+
+                <strong id="modalStatus">
+                    Active
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="modal-body">
+
+            <h3>
+                Latest Activity
+            </h3>
+
+            <div id="modalActivity">
+
+            </div>
+
+        </div>
+
+
+        <div class="modal-actions">
+
+            <button class="btn btn-secondary"
+                    data-close-modal>
+
+                Close
+
+            </button>
+
+            <button class="btn btn-primary">
+
+                <i class="fa-solid fa-chart-line"></i>
+
+                View Full Progress
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     SESSION MODAL
+========================================================= -->
+
+<div class="modal-overlay"
+     id="sessionModal">
+
+    <div class="modal">
+
+        <button class="modal-close"
+                data-close-modal>
+
+            <i class="fa-solid fa-xmark"></i>
+
+        </button>
+
+
+        <div class="modal-header">
+
+            <div class="session-modal-icon">
+                <i class="fa-solid fa-calendar-check"></i>
+            </div>
+
+            <div>
+
+                <span class="panel-label">
+                    THERAPY SESSION
+                </span>
+
+                <h2 id="modalSessionTitle">
+                    Session
+                </h2>
+
+                <p id="modalSessionDate">
+                    --
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="session-details">
+
+            <div>
+
+                <span>
+                    Child
+                </span>
+
+                <strong id="modalSessionChild">
+                    --
+                </strong>
+
+            </div>
+
+            <div>
+
+                <span>
+                    Duration
+                </span>
+
+                <strong id="modalSessionDuration">
+                    --
+                </strong>
+
+            </div>
+
+            <div>
+
+                <span>
+                    Score
+                </span>
+
+                <strong id="modalSessionScore">
+                    --
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="modal-body">
+
+            <h3>
+                Therapist Notes
+            </h3>
+
+            <p id="modalSessionNotes">
+                No notes available.
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     JAVASCRIPT
+========================================================= -->
+
+<script src="../js/therapist-dashboard.js"></script>
+
+
+</body>
+
+</html>

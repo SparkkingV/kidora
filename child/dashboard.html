@@ -1,0 +1,3207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <meta name="theme-color"
+          content="#f8fafc">
+
+    <meta name="description"
+          content="KIDORA Child Dashboard">
+
+    <title>KIDORA | Child Dashboard</title>
+
+
+    <!-- =====================================================
+         GOOGLE FONT
+    ====================================================== -->
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+
+
+    <!-- =====================================================
+         FONT AWESOME
+    ====================================================== -->
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+
+    <!-- =====================================================
+         SUPABASE
+    ====================================================== -->
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+
+    <style>
+
+        /* =====================================================
+           ROOT
+        ====================================================== */
+
+        :root {
+
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --primary-light: #eef2ff;
+
+            --success: #10b981;
+            --success-light: #ecfdf5;
+
+            --warning: #f59e0b;
+            --warning-light: #fffbeb;
+
+            --danger: #ef4444;
+            --danger-light: #fef2f2;
+
+            --blue: #3b82f6;
+            --blue-light: #eff6ff;
+
+            --purple: #8b5cf6;
+            --purple-light: #f5f3ff;
+
+            --bg: #f8fafc;
+            --card: #ffffff;
+
+            --text: #111827;
+            --text-secondary: #6b7280;
+            --text-light: #9ca3af;
+
+            --border: #e5e7eb;
+
+            --sidebar-width: 260px;
+
+            --radius: 18px;
+
+            --shadow:
+                0 10px 30px rgba(15, 23, 42, 0.06);
+
+            --transition: 0.25s ease;
+        }
+
+
+        /* =====================================================
+           RESET
+        ====================================================== */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+
+            font-family: "Inter", sans-serif;
+
+            background: var(--bg);
+
+            color: var(--text);
+
+            min-height: 100vh;
+        }
+
+        button,
+        input {
+
+            font-family: inherit;
+        }
+
+        button {
+
+            cursor: pointer;
+
+            border: none;
+        }
+
+        a {
+
+            text-decoration: none;
+
+            color: inherit;
+        }
+
+
+        /* =====================================================
+           APP
+        ====================================================== */
+
+        .app {
+
+            display: flex;
+
+            min-height: 100vh;
+        }
+
+
+        /* =====================================================
+           SIDEBAR
+        ====================================================== */
+
+        .sidebar {
+
+            width: var(--sidebar-width);
+
+            background: #ffffff;
+
+            border-right: 1px solid var(--border);
+
+            position: fixed;
+
+            left: 0;
+            top: 0;
+            bottom: 0;
+
+            z-index: 100;
+
+            display: flex;
+
+            flex-direction: column;
+
+            transition: var(--transition);
+        }
+
+
+        /* LOGO */
+
+        .sidebar-logo {
+
+            height: 82px;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            padding: 0 24px;
+
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo-icon {
+
+            width: 42px;
+            height: 42px;
+
+            border-radius: 13px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--primary),
+                    var(--purple)
+                );
+
+            color: white;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            font-size: 18px;
+        }
+
+        .logo-text {
+
+            font-size: 21px;
+
+            font-weight: 800;
+
+            letter-spacing: -0.5px;
+        }
+
+        .logo-text strong {
+
+            color: var(--primary);
+        }
+
+
+        /* NAV */
+
+        .sidebar-nav {
+
+            padding: 24px 14px;
+
+            flex: 1;
+        }
+
+        .nav-label {
+
+            padding: 0 12px;
+
+            font-size: 11px;
+
+            font-weight: 700;
+
+            text-transform: uppercase;
+
+            letter-spacing: 0.08em;
+
+            color: var(--text-light);
+
+            margin-bottom: 10px;
+        }
+
+        .nav-item {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 13px;
+
+            padding: 12px 14px;
+
+            margin-bottom: 5px;
+
+            border-radius: 12px;
+
+            color: var(--text-secondary);
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            transition: var(--transition);
+        }
+
+        .nav-item i {
+
+            width: 20px;
+
+            text-align: center;
+
+            font-size: 16px;
+        }
+
+        .nav-item:hover {
+
+            background: var(--primary-light);
+
+            color: var(--primary);
+        }
+
+        .nav-item.active {
+
+            background: var(--primary-light);
+
+            color: var(--primary);
+        }
+
+
+        /* SIDEBAR BOTTOM */
+
+        .sidebar-bottom {
+
+            padding: 16px;
+
+            border-top: 1px solid var(--border);
+        }
+
+        .user-mini {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            padding: 10px;
+
+            margin-bottom: 8px;
+        }
+
+        .avatar {
+
+            width: 38px;
+            height: 38px;
+
+            border-radius: 50%;
+
+            background: var(--primary-light);
+
+            color: var(--primary);
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            font-weight: 700;
+
+            overflow: hidden;
+        }
+
+        .avatar img {
+
+            width: 100%;
+            height: 100%;
+
+            object-fit: cover;
+        }
+
+        .user-mini-info {
+
+            min-width: 0;
+        }
+
+        .user-mini-name {
+
+            font-size: 13px;
+
+            font-weight: 700;
+
+            white-space: nowrap;
+
+            overflow: hidden;
+
+            text-overflow: ellipsis;
+        }
+
+        .user-mini-role {
+
+            font-size: 11px;
+
+            color: var(--text-light);
+
+            margin-top: 2px;
+        }
+
+        .logout-btn {
+
+            width: 100%;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            padding: 11px 14px;
+
+            background: transparent;
+
+            color: var(--text-secondary);
+
+            border-radius: 10px;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            text-align: left;
+        }
+
+        .logout-btn:hover {
+
+            background: var(--danger-light);
+
+            color: var(--danger);
+        }
+
+
+        /* =====================================================
+           MAIN
+        ====================================================== */
+
+        .main {
+
+            margin-left: var(--sidebar-width);
+
+            width: calc(100% - var(--sidebar-width));
+
+            min-height: 100vh;
+        }
+
+
+        /* =====================================================
+           TOPBAR
+        ====================================================== */
+
+        .topbar {
+
+            height: 82px;
+
+            background: rgba(255,255,255,0.9);
+
+            backdrop-filter: blur(12px);
+
+            border-bottom: 1px solid var(--border);
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 0 34px;
+
+            position: sticky;
+
+            top: 0;
+
+            z-index: 50;
+        }
+
+        .mobile-menu {
+
+            display: none;
+
+            width: 40px;
+            height: 40px;
+
+            border-radius: 10px;
+
+            background: var(--primary-light);
+
+            color: var(--primary);
+        }
+
+        .topbar-left {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 16px;
+        }
+
+        .page-title {
+
+            font-size: 18px;
+
+            font-weight: 700;
+        }
+
+        .page-subtitle {
+
+            font-size: 12px;
+
+            color: var(--text-secondary);
+
+            margin-top: 3px;
+        }
+
+        .topbar-right {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+        }
+
+        .icon-btn {
+
+            width: 42px;
+            height: 42px;
+
+            border-radius: 12px;
+
+            background: white;
+
+            border: 1px solid var(--border);
+
+            color: var(--text-secondary);
+
+            position: relative;
+        }
+
+        .icon-btn:hover {
+
+            color: var(--primary);
+
+            border-color: #c7d2fe;
+        }
+
+        .notification-dot {
+
+            position: absolute;
+
+            top: 9px;
+            right: 9px;
+
+            width: 7px;
+            height: 7px;
+
+            background: var(--danger);
+
+            border-radius: 50%;
+
+            border: 2px solid white;
+        }
+
+
+        /* =====================================================
+           CONTENT
+        ====================================================== */
+
+        .content {
+
+            padding: 30px 34px 50px;
+        }
+
+
+        /* =====================================================
+           WELCOME
+        ====================================================== */
+
+        .welcome {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-bottom: 28px;
+        }
+
+        .welcome h1 {
+
+            font-size: 28px;
+
+            letter-spacing: -0.8px;
+        }
+
+        .welcome h1 span {
+
+            color: var(--primary);
+        }
+
+        .welcome p {
+
+            color: var(--text-secondary);
+
+            margin-top: 7px;
+
+            font-size: 14px;
+        }
+
+        .date-pill {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            background: white;
+
+            border: 1px solid var(--border);
+
+            padding: 10px 14px;
+
+            border-radius: 12px;
+
+            font-size: 13px;
+
+            color: var(--text-secondary);
+
+            font-weight: 600;
+        }
+
+
+        /* =====================================================
+           STAT CARDS
+        ====================================================== */
+
+        .stats-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 18px;
+
+            margin-bottom: 24px;
+        }
+
+        .stat-card {
+
+            background: white;
+
+            border: 1px solid var(--border);
+
+            border-radius: var(--radius);
+
+            padding: 21px;
+
+            box-shadow: var(--shadow);
+
+            transition: var(--transition);
+        }
+
+        .stat-card:hover {
+
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 15px 35px rgba(15,23,42,0.08);
+        }
+
+        .stat-top {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+        }
+
+        .stat-icon {
+
+            width: 43px;
+            height: 43px;
+
+            border-radius: 12px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            font-size: 17px;
+        }
+
+        .stat-icon.purple {
+
+            background: var(--primary-light);
+
+            color: var(--primary);
+        }
+
+        .stat-icon.green {
+
+            background: var(--success-light);
+
+            color: var(--success);
+        }
+
+        .stat-icon.orange {
+
+            background: var(--warning-light);
+
+            color: var(--warning);
+        }
+
+        .stat-icon.blue {
+
+            background: var(--blue-light);
+
+            color: var(--blue);
+        }
+
+        .stat-value {
+
+            font-size: 26px;
+
+            font-weight: 800;
+
+            margin-top: 17px;
+        }
+
+        .stat-label {
+
+            font-size: 12px;
+
+            color: var(--text-secondary);
+
+            margin-top: 4px;
+        }
+
+        .stat-change {
+
+            font-size: 11px;
+
+            margin-top: 10px;
+
+            color: var(--success);
+
+            font-weight: 600;
+        }
+
+
+        /* =====================================================
+           GRID
+        ====================================================== */
+
+        .dashboard-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                1.45fr
+                0.8fr;
+
+            gap: 22px;
+
+            margin-bottom: 22px;
+        }
+
+        .card {
+
+            background: white;
+
+            border: 1px solid var(--border);
+
+            border-radius: var(--radius);
+
+            box-shadow: var(--shadow);
+        }
+
+        .card-header {
+
+            padding: 21px 22px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            border-bottom: 1px solid var(--border);
+        }
+
+        .card-title {
+
+            font-size: 15px;
+
+            font-weight: 700;
+        }
+
+        .card-subtitle {
+
+            font-size: 11px;
+
+            color: var(--text-secondary);
+
+            margin-top: 4px;
+        }
+
+        .view-all {
+
+            font-size: 12px;
+
+            color: var(--primary);
+
+            font-weight: 600;
+        }
+
+
+        /* =====================================================
+           THERAPY PROGRESS
+        ====================================================== */
+
+        .progress-card-body {
+
+            padding: 22px;
+        }
+
+        .progress-main {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 28px;
+        }
+
+        .progress-ring {
+
+            width: 135px;
+            height: 135px;
+
+            border-radius: 50%;
+
+            background:
+                conic-gradient(
+                    var(--primary) 0deg 266deg,
+                    #eef2ff 266deg 360deg
+                );
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            flex-shrink: 0;
+        }
+
+        .progress-ring-inner {
+
+            width: 105px;
+            height: 105px;
+
+            border-radius: 50%;
+
+            background: white;
+
+            display: flex;
+
+            flex-direction: column;
+
+            align-items: center;
+            justify-content: center;
+        }
+
+        .progress-percent {
+
+            font-size: 25px;
+
+            font-weight: 800;
+        }
+
+        .progress-small {
+
+            font-size: 10px;
+
+            color: var(--text-secondary);
+        }
+
+        .progress-details {
+
+            flex: 1;
+        }
+
+        .progress-details h3 {
+
+            font-size: 17px;
+
+            margin-bottom: 7px;
+        }
+
+        .progress-details p {
+
+            font-size: 12px;
+
+            line-height: 1.6;
+
+            color: var(--text-secondary);
+
+            margin-bottom: 16px;
+        }
+
+        .progress-bar {
+
+            height: 8px;
+
+            background: #eef2ff;
+
+            border-radius: 99px;
+
+            overflow: hidden;
+        }
+
+        .progress-fill {
+
+            height: 100%;
+
+            width: 74%;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    var(--primary),
+                    var(--purple)
+                );
+
+            border-radius: inherit;
+        }
+
+        .progress-meta {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            font-size: 11px;
+
+            color: var(--text-secondary);
+
+            margin-top: 7px;
+        }
+
+
+        /* =====================================================
+           THERAPIST CARD
+        ====================================================== */
+
+        .therapist-body {
+
+            padding: 22px;
+        }
+
+        .therapist-profile {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 14px;
+
+            margin-bottom: 20px;
+        }
+
+        .therapist-avatar {
+
+            width: 52px;
+            height: 52px;
+
+            border-radius: 15px;
+
+            background: var(--purple-light);
+
+            color: var(--purple);
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            font-size: 21px;
+        }
+
+        .therapist-name {
+
+            font-size: 14px;
+
+            font-weight: 700;
+        }
+
+        .therapist-role {
+
+            color: var(--text-secondary);
+
+            font-size: 11px;
+
+            margin-top: 3px;
+        }
+
+        .online-status {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 5px;
+
+            font-size: 10px;
+
+            color: var(--success);
+
+            margin-top: 5px;
+        }
+
+        .online-dot {
+
+            width: 7px;
+            height: 7px;
+
+            background: var(--success);
+
+            border-radius: 50%;
+        }
+
+        .contact-btn {
+
+            width: 100%;
+
+            padding: 11px;
+
+            border-radius: 10px;
+
+            background: var(--primary-light);
+
+            color: var(--primary);
+
+            font-size: 12px;
+
+            font-weight: 700;
+        }
+
+        .contact-btn:hover {
+
+            background: #e0e7ff;
+        }
+
+
+        /* =====================================================
+           ACTIVITIES
+        ====================================================== */
+
+        .activities-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 14px;
+
+            padding: 20px;
+        }
+
+        .activity {
+
+            border: 1px solid var(--border);
+
+            border-radius: 14px;
+
+            padding: 17px;
+
+            transition: var(--transition);
+        }
+
+        .activity:hover {
+
+            border-color: #c7d2fe;
+
+            transform: translateY(-2px);
+        }
+
+        .activity-icon {
+
+            width: 40px;
+            height: 40px;
+
+            border-radius: 11px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            margin-bottom: 14px;
+        }
+
+        .activity-icon.blue {
+
+            background: var(--blue-light);
+
+            color: var(--blue);
+        }
+
+        .activity-icon.green {
+
+            background: var(--success-light);
+
+            color: var(--success);
+        }
+
+        .activity-icon.orange {
+
+            background: var(--warning-light);
+
+            color: var(--warning);
+        }
+
+        .activity h3 {
+
+            font-size: 13px;
+
+            margin-bottom: 5px;
+        }
+
+        .activity p {
+
+            font-size: 11px;
+
+            color: var(--text-secondary);
+
+            line-height: 1.5;
+
+            margin-bottom: 13px;
+        }
+
+        .activity-status {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+        }
+
+        .status {
+
+            font-size: 10px;
+
+            font-weight: 700;
+
+            padding: 5px 8px;
+
+            border-radius: 7px;
+        }
+
+        .status.done {
+
+            background: var(--success-light);
+
+            color: var(--success);
+        }
+
+        .status.pending {
+
+            background: var(--warning-light);
+
+            color: var(--warning);
+        }
+
+        .activity-btn {
+
+            font-size: 11px;
+
+            color: var(--primary);
+
+            font-weight: 700;
+
+            background: transparent;
+        }
+
+
+        /* =====================================================
+           LOWER GRID
+        ====================================================== */
+
+        .lower-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                1fr
+                1fr;
+
+            gap: 22px;
+        }
+
+
+        /* =====================================================
+           RECENT ACTIVITY
+        ====================================================== */
+
+        .timeline {
+
+            padding: 18px 22px;
+        }
+
+        .timeline-item {
+
+            display: flex;
+
+            gap: 13px;
+
+            position: relative;
+
+            padding-bottom: 20px;
+        }
+
+        .timeline-item:last-child {
+
+            padding-bottom: 0;
+        }
+
+        .timeline-icon {
+
+            width: 32px;
+            height: 32px;
+
+            border-radius: 10px;
+
+            background: var(--primary-light);
+
+            color: var(--primary);
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            font-size: 12px;
+
+            flex-shrink: 0;
+        }
+
+        .timeline-content {
+
+            flex: 1;
+        }
+
+        .timeline-content h4 {
+
+            font-size: 12px;
+
+            font-weight: 700;
+        }
+
+        .timeline-content p {
+
+            font-size: 11px;
+
+            color: var(--text-secondary);
+
+            margin-top: 4px;
+        }
+
+        .timeline-time {
+
+            font-size: 10px;
+
+            color: var(--text-light);
+
+            margin-top: 5px;
+        }
+
+
+        /* =====================================================
+           GOALS
+        ====================================================== */
+
+        .goals {
+
+            padding: 20px 22px;
+        }
+
+        .goal {
+
+            margin-bottom: 18px;
+        }
+
+        .goal:last-child {
+
+            margin-bottom: 0;
+        }
+
+        .goal-header {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            margin-bottom: 7px;
+        }
+
+        .goal-name {
+
+            font-size: 12px;
+
+            font-weight: 600;
+        }
+
+        .goal-percent {
+
+            font-size: 11px;
+
+            color: var(--text-secondary);
+        }
+
+        .goal-bar {
+
+            height: 7px;
+
+            background: #f1f5f9;
+
+            border-radius: 99px;
+
+            overflow: hidden;
+        }
+
+        .goal-fill {
+
+            height: 100%;
+
+            border-radius: inherit;
+
+            background: var(--primary);
+
+        }
+
+        .goal-fill.green {
+
+            background: var(--success);
+        }
+
+        .goal-fill.orange {
+
+            background: var(--warning);
+        }
+
+
+        /* =====================================================
+           LOADING
+        ====================================================== */
+
+        .loading-overlay {
+
+            position: fixed;
+
+            inset: 0;
+
+            background: rgba(255,255,255,0.96);
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            z-index: 999;
+
+            transition: opacity .3s ease;
+        }
+
+        .loading-overlay.hidden {
+
+            opacity: 0;
+
+            pointer-events: none;
+        }
+
+        .loader {
+
+            text-align: center;
+        }
+
+        .loader-icon {
+
+            width: 50px;
+            height: 50px;
+
+            border-radius: 15px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--primary),
+                    var(--purple)
+                );
+
+            color: white;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            margin: auto;
+
+            animation: pulse 1.4s infinite;
+        }
+
+        .loader p {
+
+            margin-top: 14px;
+
+            color: var(--text-secondary);
+
+            font-size: 13px;
+        }
+
+        @keyframes pulse {
+
+            0%,100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.08);
+            }
+        }
+
+
+        /* =====================================================
+           MOBILE
+        ====================================================== */
+
+        @media(max-width: 1100px) {
+
+            .stats-grid {
+
+                grid-template-columns:
+                    repeat(2,1fr);
+            }
+
+            .dashboard-grid {
+
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media(max-width: 800px) {
+
+            .sidebar {
+
+                transform: translateX(-100%);
+            }
+
+            .sidebar.open {
+
+                transform: translateX(0);
+            }
+
+            .main {
+
+                margin-left: 0;
+
+                width: 100%;
+            }
+
+            .mobile-menu {
+
+                display: block;
+            }
+
+            .topbar {
+
+                padding: 0 18px;
+            }
+
+            .content {
+
+                padding: 22px 18px 40px;
+            }
+
+            .welcome {
+
+                align-items: flex-start;
+
+                gap: 15px;
+
+                flex-direction: column;
+            }
+
+            .activities-grid {
+
+                grid-template-columns: 1fr;
+            }
+
+            .lower-grid {
+
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media(max-width: 520px) {
+
+            .stats-grid {
+
+                grid-template-columns: 1fr;
+            }
+
+            .progress-main {
+
+                flex-direction: column;
+
+                align-items: flex-start;
+            }
+
+            .welcome h1 {
+
+                font-size: 23px;
+            }
+
+            .page-title {
+
+                font-size: 15px;
+            }
+
+            .topbar-right .icon-btn {
+
+                width: 38px;
+                height: 38px;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     LOADING
+========================================================== -->
+
+<div class="loading-overlay"
+     id="loadingOverlay">
+
+    <div class="loader">
+
+        <div class="loader-icon">
+
+            <i class="fa-solid fa-brain"></i>
+
+        </div>
+
+        <p>
+            Loading your KIDORA dashboard...
+        </p>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     APP
+========================================================== -->
+
+<div class="app">
+
+
+    <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
+
+    <aside class="sidebar"
+           id="sidebar">
+
+
+        <!-- LOGO -->
+
+        <div class="sidebar-logo">
+
+            <div class="logo-icon">
+
+                <i class="fa-solid fa-brain"></i>
+
+            </div>
+
+            <div class="logo-text">
+
+                KID<strong>ORA</strong>
+
+            </div>
+
+        </div>
+
+
+        <!-- NAVIGATION -->
+
+        <nav class="sidebar-nav">
+
+            <div class="nav-label">
+                Main
+            </div>
+
+
+            <a href="#"
+               class="nav-item active">
+
+                <i class="fa-solid fa-grid-2"></i>
+
+                <span>
+                    Dashboard
+                </span>
+
+            </a>
+
+
+            <a href="#"
+               class="nav-item">
+
+                <i class="fa-solid fa-calendar-check"></i>
+
+                <span>
+                    Therapy Sessions
+                </span>
+
+            </a>
+
+
+            <a href="#"
+               class="nav-item">
+
+                <i class="fa-solid fa-dumbbell"></i>
+
+                <span>
+                    Activities
+                </span>
+
+            </a>
+
+
+            <a href="#"
+               class="nav-item">
+
+                <i class="fa-solid fa-chart-line"></i>
+
+                <span>
+                    My Progress
+                </span>
+
+            </a>
+
+
+            <div class="nav-label"
+                 style="margin-top:25px;">
+
+                Support
+            </div>
+
+
+            <a href="#"
+               class="nav-item">
+
+                <i class="fa-solid fa-user-doctor"></i>
+
+                <span>
+                    My Therapist
+                </span>
+
+            </a>
+
+
+            <a href="#"
+               class="nav-item">
+
+                <i class="fa-solid fa-message"></i>
+
+                <span>
+                    Messages
+                </span>
+
+            </a>
+
+
+            <a href="#"
+               class="nav-item">
+
+                <i class="fa-solid fa-bell"></i>
+
+                <span>
+                    Notifications
+                </span>
+
+            </a>
+
+
+            <a href="#"
+               class="nav-item">
+
+                <i class="fa-solid fa-gear"></i>
+
+                <span>
+                    Settings
+                </span>
+
+            </a>
+
+        </nav>
+
+
+        <!-- BOTTOM -->
+
+        <div class="sidebar-bottom">
+
+            <div class="user-mini">
+
+                <div class="avatar"
+                     id="sidebarAvatar">
+
+                    <i class="fa-solid fa-user"></i>
+
+                </div>
+
+
+                <div class="user-mini-info">
+
+                    <div class="user-mini-name"
+                         id="sidebarName">
+
+                        Loading...
+
+                    </div>
+
+                    <div class="user-mini-role">
+
+                        Child
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <button class="logout-btn"
+                    id="logoutButton">
+
+                <i class="fa-solid fa-right-from-bracket"></i>
+
+                <span>
+                    Sign Out
+                </span>
+
+            </button>
+
+        </div>
+
+    </aside>
+
+
+    <!-- =====================================================
+         MAIN
+    ====================================================== -->
+
+    <main class="main">
+
+
+        <!-- =================================================
+             TOPBAR
+        ================================================== -->
+
+        <header class="topbar">
+
+
+            <div class="topbar-left">
+
+                <button class="mobile-menu"
+                        id="mobileMenu">
+
+                    <i class="fa-solid fa-bars"></i>
+
+                </button>
+
+
+                <div>
+
+                    <div class="page-title">
+                        Child Dashboard
+                    </div>
+
+                    <div class="page-subtitle">
+                        Your therapy journey
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="topbar-right">
+
+
+                <button class="icon-btn">
+
+                    <i class="fa-solid fa-bell"></i>
+
+                    <span class="notification-dot"></span>
+
+                </button>
+
+
+                <button class="icon-btn">
+
+                    <i class="fa-solid fa-circle-question"></i>
+
+                </button>
+
+            </div>
+
+        </header>
+
+
+        <!-- =================================================
+             CONTENT
+        ================================================== -->
+
+        <section class="content">
+
+
+            <!-- =================================================
+                 WELCOME
+            ================================================== -->
+
+            <div class="welcome">
+
+                <div>
+
+                    <h1>
+                        Hello,
+                        <span id="welcomeName">
+                            there
+                        </span>
+                        👋
+                    </h1>
+
+                    <p>
+                        Keep going! Every small step is progress.
+                    </p>
+
+                </div>
+
+
+                <div class="date-pill">
+
+                    <i class="fa-regular fa-calendar"></i>
+
+                    <span id="currentDate">
+                        Today
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 STATISTICS
+            ================================================== -->
+
+            <div class="stats-grid">
+
+
+                <!-- SESSIONS -->
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <div class="stat-icon purple">
+
+                            <i class="fa-solid fa-calendar-check"></i>
+
+                        </div>
+
+                    </div>
+
+                    <div class="stat-value">
+                        12
+                    </div>
+
+                    <div class="stat-label">
+                        Therapy Sessions
+                    </div>
+
+                    <div class="stat-change">
+
+                        <i class="fa-solid fa-arrow-up"></i>
+
+                        2 this month
+
+                    </div>
+
+                </div>
+
+
+                <!-- ACTIVITIES -->
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <div class="stat-icon green">
+
+                            <i class="fa-solid fa-check"></i>
+
+                        </div>
+
+                    </div>
+
+                    <div class="stat-value">
+                        84%
+                    </div>
+
+                    <div class="stat-label">
+                        Activity Completion
+                    </div>
+
+                    <div class="stat-change">
+
+                        <i class="fa-solid fa-arrow-up"></i>
+
+                        8% this week
+
+                    </div>
+
+                </div>
+
+
+                <!-- STREAK -->
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <div class="stat-icon orange">
+
+                            <i class="fa-solid fa-fire"></i>
+
+                        </div>
+
+                    </div>
+
+                    <div class="stat-value">
+                        7
+                    </div>
+
+                    <div class="stat-label">
+                        Day Streak
+                    </div>
+
+                    <div class="stat-change"
+                         style="color:var(--warning);">
+
+                        Keep it going!
+
+                    </div>
+
+                </div>
+
+
+                <!-- SCORE -->
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <div class="stat-icon blue">
+
+                            <i class="fa-solid fa-star"></i>
+
+                        </div>
+
+                    </div>
+
+                    <div class="stat-value">
+                        92
+                    </div>
+
+                    <div class="stat-label">
+                        Overall Score
+                    </div>
+
+                    <div class="stat-change">
+
+                        Excellent progress
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 PROGRESS + THERAPIST
+            ================================================== -->
+
+            <div class="dashboard-grid">
+
+
+                <!-- PROGRESS -->
+
+                <div class="card">
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <div class="card-title">
+                                Therapy Progress
+                            </div>
+
+                            <div class="card-subtitle">
+                                Your overall development
+                            </div>
+
+                        </div>
+
+                        <a href="#"
+                           class="view-all">
+
+                            View details
+
+                        </a>
+
+                    </div>
+
+
+                    <div class="progress-card-body">
+
+                        <div class="progress-main">
+
+
+                            <div class="progress-ring">
+
+                                <div class="progress-ring-inner">
+
+                                    <div class="progress-percent">
+                                        74%
+                                    </div>
+
+                                    <div class="progress-small">
+                                        completed
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="progress-details">
+
+                                <h3>
+                                    Great progress!
+                                </h3>
+
+                                <p>
+                                    You are making steady progress
+                                    toward your current therapy goals.
+                                    Keep practicing your activities
+                                    consistently.
+                                </p>
+
+
+                                <div class="progress-bar">
+
+                                    <div class="progress-fill"></div>
+
+                                </div>
+
+
+                                <div class="progress-meta">
+
+                                    <span>
+                                        Current progress
+                                    </span>
+
+                                    <strong>
+                                        74 / 100
+                                    </strong>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- THERAPIST -->
+
+                <div class="card">
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <div class="card-title">
+                                My Therapist
+                            </div>
+
+                            <div class="card-subtitle">
+                                Your therapy specialist
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="therapist-body">
+
+                        <div class="therapist-profile">
+
+                            <div class="therapist-avatar">
+
+                                <i class="fa-solid fa-user-doctor"></i>
+
+                            </div>
+
+
+                            <div>
+
+                                <div class="therapist-name">
+                                    Dr. Ananya Sharma
+                                </div>
+
+                                <div class="therapist-role">
+                                    Occupational Therapist
+                                </div>
+
+                                <div class="online-status">
+
+                                    <span class="online-dot"></span>
+
+                                    Available
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <button class="contact-btn">
+
+                            <i class="fa-solid fa-message"></i>
+
+                            Contact Therapist
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 TODAY'S ACTIVITIES
+            ================================================== -->
+
+            <div class="card"
+                 style="margin-bottom:22px;">
+
+                <div class="card-header">
+
+                    <div>
+
+                        <div class="card-title">
+                            Today's Activities
+                        </div>
+
+                        <div class="card-subtitle">
+                            Complete your assigned exercises
+                        </div>
+
+                    </div>
+
+                    <a href="#"
+                       class="view-all">
+
+                        View all
+
+                    </a>
+
+                </div>
+
+
+                <div class="activities-grid">
+
+
+                    <!-- ACTIVITY 1 -->
+
+                    <div class="activity">
+
+                        <div class="activity-icon blue">
+
+                            <i class="fa-solid fa-hand"></i>
+
+                        </div>
+
+                        <h3>
+                            Fine Motor Exercise
+                        </h3>
+
+                        <p>
+                            Practice hand coordination
+                            and finger movement.
+                        </p>
+
+                        <div class="activity-status">
+
+                            <span class="status done">
+                                Completed
+                            </span>
+
+                            <button class="activity-btn">
+                                Review
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ACTIVITY 2 -->
+
+                    <div class="activity">
+
+                        <div class="activity-icon green">
+
+                            <i class="fa-solid fa-brain"></i>
+
+                        </div>
+
+                        <h3>
+                            Memory Challenge
+                        </h3>
+
+                        <p>
+                            Complete the visual memory
+                            training exercise.
+                        </p>
+
+                        <div class="activity-status">
+
+                            <span class="status pending">
+                                Pending
+                            </span>
+
+                            <button class="activity-btn">
+                                Start
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ACTIVITY 3 -->
+
+                    <div class="activity">
+
+                        <div class="activity-icon orange">
+
+                            <i class="fa-solid fa-person-running"></i>
+
+                        </div>
+
+                        <h3>
+                            Movement Exercise
+                        </h3>
+
+                        <p>
+                            Follow the movement routine
+                            assigned by your therapist.
+                        </p>
+
+                        <div class="activity-status">
+
+                            <span class="status pending">
+                                Pending
+                            </span>
+
+                            <button class="activity-btn">
+                                Start
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 LOWER GRID
+            ================================================== -->
+
+            <div class="lower-grid">
+
+
+                <!-- RECENT ACTIVITY -->
+
+                <div class="card">
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <div class="card-title">
+                                Recent Activity
+                            </div>
+
+                            <div class="card-subtitle">
+                                Your latest achievements
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="timeline">
+
+
+                        <div class="timeline-item">
+
+                            <div class="timeline-icon">
+
+                                <i class="fa-solid fa-check"></i>
+
+                            </div>
+
+                            <div class="timeline-content">
+
+                                <h4>
+                                    Fine Motor Exercise completed
+                                </h4>
+
+                                <p>
+                                    You completed today's exercise.
+                                </p>
+
+                                <div class="timeline-time">
+                                    Today · 10:30 AM
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="timeline-item">
+
+                            <div class="timeline-icon">
+
+                                <i class="fa-solid fa-star"></i>
+
+                            </div>
+
+                            <div class="timeline-content">
+
+                                <h4>
+                                    New personal best
+                                </h4>
+
+                                <p>
+                                    Your activity score reached 92%.
+                                </p>
+
+                                <div class="timeline-time">
+                                    Yesterday · 4:20 PM
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="timeline-item">
+
+                            <div class="timeline-icon">
+
+                                <i class="fa-solid fa-calendar-check"></i>
+
+                            </div>
+
+                            <div class="timeline-content">
+
+                                <h4>
+                                    Therapy session completed
+                                </h4>
+
+                                <p>
+                                    Session with Dr. Ananya Sharma.
+                                </p>
+
+                                <div class="timeline-time">
+                                    Aug 18 · 11:00 AM
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- GOALS -->
+
+                <div class="card">
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <div class="card-title">
+                                My Goals
+                            </div>
+
+                            <div class="card-subtitle">
+                                Current therapy targets
+                            </div>
+
+                        </div>
+
+                        <a href="#"
+                           class="view-all">
+
+                            Details
+
+                        </a>
+
+                    </div>
+
+
+                    <div class="goals">
+
+
+                        <div class="goal">
+
+                            <div class="goal-header">
+
+                                <span class="goal-name">
+                                    Fine Motor Skills
+                                </span>
+
+                                <span class="goal-percent">
+                                    82%
+                                </span>
+
+                            </div>
+
+                            <div class="goal-bar">
+
+                                <div class="goal-fill"
+                                     style="width:82%;">
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="goal">
+
+                            <div class="goal-header">
+
+                                <span class="goal-name">
+                                    Cognitive Skills
+                                </span>
+
+                                <span class="goal-percent">
+                                    74%
+                                </span>
+
+                            </div>
+
+                            <div class="goal-bar">
+
+                                <div class="goal-fill green"
+                                     style="width:74%;">
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="goal">
+
+                            <div class="goal-header">
+
+                                <span class="goal-name">
+                                    Physical Coordination
+                                </span>
+
+                                <span class="goal-percent">
+                                    68%
+                                </span>
+
+                            </div>
+
+                            <div class="goal-bar">
+
+                                <div class="goal-fill orange"
+                                     style="width:68%;">
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="goal">
+
+                            <div class="goal-header">
+
+                                <span class="goal-name">
+                                    Daily Independence
+                                </span>
+
+                                <span class="goal-percent">
+                                    76%
+                                </span>
+
+                            </div>
+
+                            <div class="goal-bar">
+
+                                <div class="goal-fill"
+                                     style="width:76%;">
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<!-- =========================================================
+     JAVASCRIPT
+========================================================== -->
+
+<script>
+
+    /* =========================================================
+       KIDORA SUPABASE CONFIG
+    ========================================================== */
+
+    const SUPABASE_URL =
+        "https://vvaxscrxalmroycyarnk.supabase.co";
+
+    /*
+       IMPORTANT:
+       Put your PUBLIC anon key here.
+
+       NEVER put your service_role key
+       inside frontend JavaScript.
+    */
+
+    const SUPABASE_ANON_KEY =
+        "YOUR_SUPABASE_ANON_KEY";
+
+
+    /* =========================================================
+       SUPABASE CLIENT
+    ========================================================== */
+
+    let supabaseClient = null;
+
+
+    function initializeSupabase() {
+
+        if (
+            !window.supabase ||
+            !window.supabase.createClient
+        ) {
+
+            console.error(
+                "KIDORA: Supabase library failed to load."
+            );
+
+            return false;
+        }
+
+
+        if (
+            !SUPABASE_URL ||
+            SUPABASE_URL.includes("YOUR_") ||
+            !SUPABASE_ANON_KEY ||
+            SUPABASE_ANON_KEY.includes("YOUR_")
+        ) {
+
+            console.warn(
+                "KIDORA: Add your Supabase anon key."
+            );
+
+            return false;
+        }
+
+
+        supabaseClient =
+            window.supabase.createClient(
+                SUPABASE_URL,
+                SUPABASE_ANON_KEY
+            );
+
+
+        console.log(
+            "KIDORA: Supabase initialized."
+        );
+
+        return true;
+    }
+
+
+    /* =========================================================
+       LOAD PROFILE
+    ========================================================== */
+
+    async function loadUserProfile() {
+
+        if (!supabaseClient) {
+
+            useDemoProfile();
+
+            return;
+        }
+
+
+        try {
+
+            const {
+                data: {
+                    user
+                },
+                error: authError
+            } =
+                await supabaseClient.auth.getUser();
+
+
+            if (authError) {
+
+                throw authError;
+            }
+
+
+            if (!user) {
+
+                window.location.href =
+                    "login.html";
+
+                return;
+            }
+
+
+            console.log(
+                "KIDORA authenticated user:",
+                user.id
+            );
+
+
+            const {
+                data: profile,
+                error: profileError
+            } =
+                await supabaseClient
+                    .from("profiles")
+                    .select("*")
+                    .eq("id", user.id)
+                    .maybeSingle();
+
+
+            if (profileError) {
+
+                console.error(
+                    "Profile loading error:",
+                    profileError
+                );
+
+                throw profileError;
+            }
+
+
+            if (!profile) {
+
+                console.warn(
+                    "No profile found."
+                );
+
+                updateUserUI({
+                    full_name:
+                        user.user_metadata?.full_name ||
+                        user.email?.split("@")[0] ||
+                        "Child",
+
+                    email: user.email,
+
+                    role: "child"
+                });
+
+                return;
+            }
+
+
+            console.log(
+                "KIDORA profile loaded:",
+                profile
+            );
+
+
+            /*
+               Security:
+               Only child accounts should use
+               this dashboard.
+            */
+
+            if (
+                profile.role &&
+                profile.role !== "child"
+            ) {
+
+                if (
+                    profile.role === "therapist"
+                ) {
+
+                    window.location.href =
+                        "therapist-dashboard.html";
+
+                    return;
+                }
+            }
+
+
+            updateUserUI(profile);
+
+        }
+
+        catch (error) {
+
+            console.error(
+                "KIDORA profile error:",
+                error
+            );
+
+            showMessage(
+                "Unable to load your profile.",
+                "error"
+            );
+        }
+    }
+
+
+    /* =========================================================
+       UPDATE USER UI
+    ========================================================== */
+
+    function updateUserUI(profile) {
+
+        const name =
+            profile.full_name ||
+            "Child";
+
+
+        const firstName =
+            name.split(" ")[0];
+
+
+        const welcomeName =
+            document.getElementById(
+                "welcomeName"
+            );
+
+        if (welcomeName) {
+
+            welcomeName.textContent =
+                firstName;
+        }
+
+
+        const sidebarName =
+            document.getElementById(
+                "sidebarName"
+            );
+
+        if (sidebarName) {
+
+            sidebarName.textContent =
+                name;
+        }
+
+
+        const sidebarAvatar =
+            document.getElementById(
+                "sidebarAvatar"
+            );
+
+
+        if (
+            sidebarAvatar &&
+            profile.avatar_url
+        ) {
+
+            sidebarAvatar.innerHTML =
+                `<img src="${escapeHTML(
+                    profile.avatar_url
+                )}" alt="Profile">`;
+
+        }
+
+        else if (sidebarAvatar) {
+
+            sidebarAvatar.innerHTML =
+                `<span>${getInitials(
+                    name
+                )}</span>`;
+        }
+    }
+
+
+    /* =========================================================
+       DEMO PROFILE
+    ========================================================== */
+
+    function useDemoProfile() {
+
+        console.log(
+            "KIDORA: Demo profile mode."
+        );
+
+
+        updateUserUI({
+
+            full_name: "Alex Johnson",
+
+            role: "child",
+
+            email: "alex@example.com"
+
+        });
+    }
+
+
+    /* =========================================================
+       LOGOUT
+    ========================================================== */
+
+    async function logout() {
+
+        try {
+
+            if (supabaseClient) {
+
+                const {
+                    error
+                } =
+                    await supabaseClient
+                        .auth
+                        .signOut();
+
+
+                if (error) {
+
+                    throw error;
+                }
+            }
+
+
+            window.location.href =
+                "login.html";
+
+        }
+
+        catch (error) {
+
+            console.error(
+                "Logout error:",
+                error
+            );
+        }
+    }
+
+
+    /* =========================================================
+       DATE
+    ========================================================== */
+
+    function setCurrentDate() {
+
+        const date =
+            new Date();
+
+
+        const options = {
+
+            weekday: "long",
+
+            month: "short",
+
+            day: "numeric",
+
+            year: "numeric"
+        };
+
+
+        const element =
+            document.getElementById(
+                "currentDate"
+            );
+
+
+        if (element) {
+
+            element.textContent =
+                date.toLocaleDateString(
+                    "en-IN",
+                    options
+                );
+        }
+    }
+
+
+    /* =========================================================
+       MOBILE SIDEBAR
+    ========================================================== */
+
+    function initializeMobileMenu() {
+
+        const button =
+            document.getElementById(
+                "mobileMenu"
+            );
+
+        const sidebar =
+            document.getElementById(
+                "sidebar"
+            );
+
+
+        if (!button || !sidebar) {
+
+            return;
+        }
+
+
+        button.addEventListener(
+            "click",
+            () => {
+
+                sidebar.classList.toggle(
+                    "open"
+                );
+
+            }
+        );
+    }
+
+
+    /* =========================================================
+       ESCAPE HTML
+    ========================================================== */
+
+    function escapeHTML(value) {
+
+        if (!value) {
+
+            return "";
+        }
+
+
+        return String(value)
+            .replaceAll("&", "&amp;")
+            .replaceAll("<", "&lt;")
+            .replaceAll(">", "&gt;")
+            .replaceAll('"', "&quot;")
+            .replaceAll("'", "&#039;");
+    }
+
+
+    /* =========================================================
+       INITIALS
+    ========================================================== */
+
+    function getInitials(name) {
+
+        if (!name) {
+
+            return "?";
+        }
+
+
+        return name
+            .split(" ")
+            .filter(Boolean)
+            .slice(0, 2)
+            .map(
+                word =>
+                    word
+                        .charAt(0)
+                        .toUpperCase()
+            )
+            .join("");
+    }
+
+
+    /* =========================================================
+       MESSAGE
+    ========================================================== */
+
+    function showMessage(
+        message,
+        type = "info"
+    ) {
+
+        console.log(
+            `[KIDORA ${type}]`,
+            message
+        );
+    }
+
+
+    /* =========================================================
+       NAVIGATION
+    ========================================================== */
+
+    function initializeNavigation() {
+
+        const navItems =
+            document.querySelectorAll(
+                ".nav-item"
+            );
+
+
+        navItems.forEach(
+            item => {
+
+                item.addEventListener(
+                    "click",
+                    event => {
+
+                        event.preventDefault();
+
+
+                        navItems.forEach(
+                            nav =>
+                                nav.classList.remove(
+                                    "active"
+                                )
+                        );
+
+
+                        item.classList.add(
+                            "active"
+                        );
+
+
+                        const sidebar =
+                            document.getElementById(
+                                "sidebar"
+                            );
+
+
+                        if (
+                            window.innerWidth <=
+                            800
+                        ) {
+
+                            sidebar.classList.remove(
+                                "open"
+                            );
+                        }
+
+                    }
+                );
+
+            }
+        );
+    }
+
+
+    /* =========================================================
+       INITIALIZATION
+    ========================================================== */
+
+    async function initializeDashboard() {
+
+        console.log(
+            "======================================"
+        );
+
+        console.log(
+            "KIDORA CHILD DASHBOARD"
+        );
+
+        console.log(
+            "Initializing..."
+        );
+
+
+        initializeSupabase();
+
+        setCurrentDate();
+
+        initializeMobileMenu();
+
+        initializeNavigation();
+
+
+        const logoutButton =
+            document.getElementById(
+                "logoutButton"
+            );
+
+
+        if (logoutButton) {
+
+            logoutButton.addEventListener(
+                "click",
+                logout
+            );
+        }
+
+
+        await loadUserProfile();
+
+
+        const loading =
+            document.getElementById(
+                "loadingOverlay"
+            );
+
+
+        if (loading) {
+
+            setTimeout(
+                () => {
+
+                    loading.classList.add(
+                        "hidden"
+                    );
+
+                },
+                300
+            );
+        }
+
+
+        console.log(
+            "KIDORA child dashboard ready."
+        );
+
+        console.log(
+            "======================================"
+        );
+    }
+
+
+    /* =========================================================
+       START
+    ========================================================== */
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        initializeDashboard
+    );
+
+</script>
+
+
+</body>
+
+</html>
