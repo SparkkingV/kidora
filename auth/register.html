@@ -41,7 +41,8 @@
 
 
     <!-- =====================================================
-         SUPABASE
+         SUPABASE JS
+         MUST LOAD BEFORE register.js
     ====================================================== -->
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -67,16 +68,13 @@
 
 <body>
 
-
 <div class="auth-page">
-
 
     <!-- =====================================================
          BACKGROUND EFFECTS
     ====================================================== -->
 
     <div class="auth-glow auth-glow-one"></div>
-
     <div class="auth-glow auth-glow-two"></div>
 
 
@@ -96,19 +94,13 @@
            aria-label="KIDORA Home">
 
             <div class="logo-icon">
-
                 <i class="fa-solid fa-brain"
                    aria-hidden="true"></i>
-
             </div>
 
-
             <div class="logo-text">
-
                 <span>KID</span>
-
                 <strong>ORA</strong>
-
             </div>
 
         </a>
@@ -131,13 +123,11 @@
                     GET STARTED
                 </div>
 
-
                 <h1>
                     Create your
                     <span>KIDORA</span>
                     account.
                 </h1>
-
 
                 <p>
                     Join the connected therapy
@@ -176,12 +166,10 @@
                         Full Name
                     </label>
 
-
                     <div class="input-wrapper">
 
                         <i class="fa-solid fa-user"
                            aria-hidden="true"></i>
-
 
                         <input
                             type="text"
@@ -208,12 +196,10 @@
                         Email Address
                     </label>
 
-
                     <div class="input-wrapper">
 
                         <i class="fa-solid fa-envelope"
                            aria-hidden="true"></i>
-
 
                         <input
                             type="email"
@@ -239,13 +225,10 @@
                         I am registering as
                     </label>
 
-
                     <div class="role-selector">
 
 
-                        <!-- =====================================
-                             CHILD
-                        ====================================== -->
+                        <!-- CHILD -->
 
                         <label class="role-option">
 
@@ -256,16 +239,12 @@
                                 checked
                                 required>
 
-
                             <div class="role-card">
 
                                 <div class="role-icon">
-
                                     <i class="fa-solid fa-child"
                                        aria-hidden="true"></i>
-
                                 </div>
-
 
                                 <div class="role-info">
 
@@ -279,12 +258,9 @@
 
                                 </div>
 
-
                                 <div class="role-check">
-
                                     <i class="fa-solid fa-check"
                                        aria-hidden="true"></i>
-
                                 </div>
 
                             </div>
@@ -292,9 +268,7 @@
                         </label>
 
 
-                        <!-- =====================================
-                             THERAPIST
-                        ====================================== -->
+                        <!-- THERAPIST -->
 
                         <label class="role-option">
 
@@ -303,16 +277,12 @@
                                 name="role"
                                 value="therapist">
 
-
                             <div class="role-card">
 
                                 <div class="role-icon">
-
                                     <i class="fa-solid fa-user-doctor"
                                        aria-hidden="true"></i>
-
                                 </div>
-
 
                                 <div class="role-info">
 
@@ -326,18 +296,14 @@
 
                                 </div>
 
-
                                 <div class="role-check">
-
                                     <i class="fa-solid fa-check"
                                        aria-hidden="true"></i>
-
                                 </div>
 
                             </div>
 
                         </label>
-
 
                     </div>
 
@@ -354,12 +320,10 @@
                         Password
                     </label>
 
-
                     <div class="input-wrapper">
 
                         <i class="fa-solid fa-lock"
                            aria-hidden="true"></i>
-
 
                         <input
                             type="password"
@@ -370,7 +334,6 @@
                             minlength="8"
                             maxlength="128"
                             required>
-
 
                         <button
                             type="button"
@@ -392,11 +355,8 @@
                     <div class="password-strength">
 
                         <div class="strength-bar">
-
                             <span id="strengthBar"></span>
-
                         </div>
-
 
                         <small id="strengthText">
                             Use at least 8 characters
@@ -417,12 +377,10 @@
                         Confirm Password
                     </label>
 
-
                     <div class="input-wrapper">
 
                         <i class="fa-solid fa-lock"
                            aria-hidden="true"></i>
-
 
                         <input
                             type="password"
@@ -433,7 +391,6 @@
                             minlength="8"
                             maxlength="128"
                             required>
-
 
                         <button
                             type="button"
@@ -463,7 +420,6 @@
                         id="terms"
                         name="terms"
                         required>
-
 
                     <span>
 
@@ -505,7 +461,6 @@
 
                 </button>
 
-
             </form>
 
 
@@ -514,13 +469,10 @@
             ================================================== -->
 
             <div class="auth-divider">
-
                 <span>
                     Already have an account?
                 </span>
-
             </div>
-
 
             <a href="login.html"
                class="register-link">
@@ -531,7 +483,6 @@
                    aria-hidden="true"></i>
 
             </a>
-
 
         </section>
 
@@ -550,9 +501,7 @@
 
         </a>
 
-
     </main>
-
 
 </div>
 
@@ -563,7 +512,5 @@
 
 <script src="../js/register.js"></script>
 
-
 </body>
-
 </html>

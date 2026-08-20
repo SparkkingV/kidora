@@ -1,6 +1,6 @@
 /* =========================================================
    KIDORA REGISTRATION
-   Supabase Auth + Automatic Profile Trigger
+   Supabase Auth + automatic profile trigger
 ========================================================= */
 
 console.log("======================================");
@@ -10,58 +10,106 @@ console.log("======================================");
 
 /* =========================================================
    SUPABASE CONFIG
+=========================================================
+
+   IMPORTANT:
+   Replace these two values with the SAME values used
+   elsewhere in your KIDORA project.
 ========================================================= */
 
 const SUPABASE_URL =
     "https://vvaxscrxalmroycyarnk.supabase.co";
-
-/*
-   IMPORTANT:
-   Replace this with your Supabase ANON / PUBLISHABLE KEY.
-
-   Do NOT put the service_role key here.
-*/
 
 const SUPABASE_ANON_KEY =
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ2YXhzY3J4YWxtcm95Y3lhcm5rIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODcyMDE5NDUsImV4cCI6MjEwMjc3Nzk0NX0.4YwldhokcYxC5HLJT0GldI0d2WWxF7vc8jm7Mq1W4KI";
 
 
 /* =========================================================
-   CREATE SUPABASE CLIENT
+   SUPABASE CLIENT
 ========================================================= */
 
-let kidoraSupabase = null;
+let supabaseClient = null;
 
-try {
+
+function initializeSupabase() {
+
+    console.log("Initializing Supabase...");
+
+    /* Check library */
 
     if (
         typeof window.supabase === "undefined" ||
         typeof window.supabase.createClient !== "function"
     ) {
 
-        throw new Error(
+        console.error(
             "Supabase JavaScript library was not loaded."
         );
+
+        showMessage(
+            "Supabase failed to load. Please refresh the page.",
+            "error"
+        );
+
+        return false;
     }
 
 
-    kidoraSupabase =
-        window.supabase.createClient(
-            SUPABASE_URL,
-            SUPABASE_ANON_KEY
+    /* Check configuration */
+
+    if (
+        !SUPABASE_URL ||
+        !SUPABASE_ANON_KEY ||
+        SUPABASE_ANON_KEY === "YOUR_SUPABASE_ANON_KEY"
+    ) {
+
+        console.error(
+            "Supabase URL or ANON KEY is missing."
         );
 
+        showMessage(
+            "KIDORA configuration is incomplete.",
+            "error"
+        );
 
-    console.log("KIDORA Supabase client created successfully.");
+        return false;
+    }
 
-}
-catch (error) {
 
-    console.error(
-        "KIDORA Supabase initialization failed:",
-        error
-    );
+    try {
 
+        supabaseClient =
+            window.supabase.createClient(
+                SUPABASE_URL,
+                SUPABASE_ANON_KEY,
+                {
+                    auth: {
+                        autoRefreshToken: true,
+                        persistSession: true,
+                        detectSessionInUrl: true
+                    }
+                }
+            );
+
+
+        console.log("Supabase client initialized.");
+
+        return true;
+
+    } catch (error) {
+
+        console.error(
+            "Supabase initialization error:",
+            error
+        );
+
+        showMessage(
+            "Unable to initialize KIDORA services.",
+            "error"
+        );
+
+        return false;
+    }
 }
 
 
@@ -69,7 +117,7 @@ catch (error) {
    DOM ELEMENTS
 ========================================================= */
 
-const registerForm =
+const form =
     document.getElementById("registerForm");
 
 const fullNameInput =
@@ -113,20 +161,20 @@ const toggleConfirmPassword =
 
 
 /* =========================================================
-   MESSAGE SYSTEM
+   MESSAGE
 ========================================================= */
 
 function showMessage(message, type = "error") {
 
     if (!authMessage) {
-        console.log(`[${type}] ${message}`);
         return;
     }
+
 
     authMessage.textContent = message;
 
     authMessage.className =
-        `auth-message ${type}`;
+        "auth-message " + type;
 
     authMessage.style.display = "block";
 }
@@ -134,7 +182,9 @@ function showMessage(message, type = "error") {
 
 function clearMessage() {
 
-    if (!authMessage) return;
+    if (!authMessage) {
+        return;
+    }
 
     authMessage.textContent = "";
 
@@ -151,40 +201,41 @@ function clearMessage() {
 
 function setupPasswordToggle(button, input) {
 
-    if (!button || !input) return;
+    if (!button || !input) {
+        return;
+    }
 
-    button.addEventListener("click", () => {
 
-        const isPassword =
-            input.type === "password";
+    button.addEventListener("click", function () {
+
+        const showing =
+            input.type === "text";
+
 
         input.type =
-            isPassword ? "text" : "password";
+            showing ? "password" : "text";
 
 
         const icon =
             button.querySelector("i");
 
+
         if (icon) {
 
-            icon.classList.toggle(
-                "fa-eye",
-                !isPassword
-            );
-
-            icon.classList.toggle(
-                "fa-eye-slash",
-                isPassword
-            );
+            icon.className =
+                showing
+                    ? "fa-solid fa-eye"
+                    : "fa-solid fa-eye-slash";
         }
 
 
         button.setAttribute(
             "aria-label",
-            isPassword
-                ? "Hide password"
-                : "Show password"
+            showing
+                ? "Show password"
+                : "Hide password"
         );
+
     });
 }
 
@@ -193,7 +244,6 @@ setupPasswordToggle(
     togglePassword,
     passwordInput
 );
-
 
 setupPasswordToggle(
     toggleConfirmPassword,
@@ -209,9 +259,6 @@ function calculatePasswordStrength(password) {
 
     let score = 0;
 
-    if (!password) {
-        return 0;
-    }
 
     if (password.length >= 8) {
         score++;
@@ -237,24 +284,20 @@ function calculatePasswordStrength(password) {
         score++;
     }
 
+
     return score;
 }
 
 
 function updatePasswordStrength() {
 
-    if (!passwordInput) return;
+    if (!passwordInput) {
+        return;
+    }
+
 
     const password =
         passwordInput.value;
-
-    const score =
-        calculatePasswordStrength(password);
-
-
-    if (!strengthBar || !strengthText) {
-        return;
-    }
 
 
     if (!password) {
@@ -268,25 +311,32 @@ function updatePasswordStrength() {
     }
 
 
-    if (score <= 2) {
+    const score =
+        calculatePasswordStrength(password);
 
-        strengthBar.style.width = "30%";
+
+    const percentage =
+        Math.min(
+            100,
+            Math.round((score / 6) * 100)
+        );
+
+
+    strengthBar.style.width =
+        percentage + "%";
+
+
+    if (score <= 2) {
 
         strengthText.textContent =
             "Weak password";
 
-    }
-    else if (score <= 4) {
-
-        strengthBar.style.width = "65%";
+    } else if (score <= 4) {
 
         strengthText.textContent =
             "Medium password";
 
-    }
-    else {
-
-        strengthBar.style.width = "100%";
+    } else {
 
         strengthText.textContent =
             "Strong password";
@@ -304,89 +354,30 @@ if (passwordInput) {
 
 
 /* =========================================================
-   PASSWORD MATCH VALIDATION
-========================================================= */
-
-function validatePasswords() {
-
-    if (
-        !passwordInput ||
-        !confirmPasswordInput
-    ) {
-        return true;
-    }
-
-
-    const password =
-        passwordInput.value;
-
-    const confirmPassword =
-        confirmPasswordInput.value;
-
-
-    if (!confirmPassword) {
-        return true;
-    }
-
-
-    if (password !== confirmPassword) {
-
-        confirmPasswordInput.setCustomValidity(
-            "Passwords do not match."
-        );
-
-        return false;
-    }
-
-
-    confirmPasswordInput.setCustomValidity("");
-
-    return true;
-}
-
-
-if (confirmPasswordInput) {
-
-    confirmPasswordInput.addEventListener(
-        "input",
-        validatePasswords
-    );
-}
-
-
-if (passwordInput) {
-
-    passwordInput.addEventListener(
-        "input",
-        validatePasswords
-    );
-}
-
-
-/* =========================================================
-   GET SELECTED ROLE
+   ROLE
 ========================================================= */
 
 function getSelectedRole() {
 
-    const selectedRole =
+    const selected =
         document.querySelector(
             'input[name="role"]:checked'
         );
 
 
-    if (!selectedRole) {
+    if (!selected) {
         return "child";
     }
 
 
     const role =
-        selectedRole.value;
+        selected.value;
 
 
     /*
-       KIDORA only supports these roles.
-       Anything else becomes child.
+       SECURITY:
+       Only roles supported by the database
+       are allowed.
     */
 
     if (
@@ -403,95 +394,42 @@ function getSelectedRole() {
 
 
 /* =========================================================
-   BUTTON LOADING
+   VALIDATION
 ========================================================= */
 
-function setLoading(isLoading) {
+function validateForm() {
 
-    if (!registerButton) return;
-
-
-    registerButton.disabled =
-        isLoading;
-
-
-    if (isLoading) {
-
-        if (registerButtonText) {
-
-            registerButtonText.textContent =
-                "Creating Account...";
-        }
-
-
-        if (registerButtonIcon) {
-
-            registerButtonIcon.className =
-                "fa-solid fa-spinner fa-spin";
-        }
-
-    }
-    else {
-
-        if (registerButtonText) {
-
-            registerButtonText.textContent =
-                "Create Account";
-        }
-
-
-        if (registerButtonIcon) {
-
-            registerButtonIcon.className =
-                "fa-solid fa-arrow-right";
-        }
-    }
-}
-
-
-/* =========================================================
-   VALIDATE FORM
-========================================================= */
-
-function validateRegistrationForm() {
-
-    clearMessage();
-
-
-    if (!fullNameInput.value.trim()) {
-
-        showMessage(
-            "Please enter your full name."
-        );
-
-        fullNameInput.focus();
-
-        return false;
-    }
-
-
-    if (
-        fullNameInput.value.trim().length < 2
-    ) {
-
-        showMessage(
-            "Your name must contain at least 2 characters."
-        );
-
-        fullNameInput.focus();
-
-        return false;
-    }
-
+    const fullName =
+        fullNameInput.value.trim();
 
     const email =
         emailInput.value.trim();
+
+    const password =
+        passwordInput.value;
+
+    const confirmPassword =
+        confirmPasswordInput.value;
+
+
+    if (fullName.length < 2) {
+
+        showMessage(
+            "Please enter your full name.",
+            "error"
+        );
+
+        fullNameInput.focus();
+
+        return false;
+    }
 
 
     if (!email) {
 
         showMessage(
-            "Please enter your email address."
+            "Please enter your email address.",
+            "error"
         );
 
         emailInput.focus();
@@ -500,14 +438,32 @@ function validateRegistrationForm() {
     }
 
 
-    const password =
-        passwordInput.value;
+    /*
+       Basic email validation.
+    */
+
+    const emailPattern =
+        /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+
+    if (!emailPattern.test(email)) {
+
+        showMessage(
+            "Please enter a valid email address.",
+            "error"
+        );
+
+        emailInput.focus();
+
+        return false;
+    }
 
 
     if (password.length < 8) {
 
         showMessage(
-            "Password must contain at least 8 characters."
+            "Password must contain at least 8 characters.",
+            "error"
         );
 
         passwordInput.focus();
@@ -516,14 +472,11 @@ function validateRegistrationForm() {
     }
 
 
-    const confirmPassword =
-        confirmPasswordInput.value;
-
-
     if (password !== confirmPassword) {
 
         showMessage(
-            "Passwords do not match."
+            "Passwords do not match.",
+            "error"
         );
 
         confirmPasswordInput.focus();
@@ -532,13 +485,11 @@ function validateRegistrationForm() {
     }
 
 
-    if (
-        termsInput &&
-        !termsInput.checked
-    ) {
+    if (!termsInput.checked) {
 
         showMessage(
-            "Please accept the Terms of Service and Privacy Policy."
+            "Please agree to the Terms of Service and Privacy Policy.",
+            "error"
         );
 
         termsInput.focus();
@@ -552,83 +503,100 @@ function validateRegistrationForm() {
 
 
 /* =========================================================
-   SUPABASE ERROR TRANSLATOR
+   BUTTON LOADING
 ========================================================= */
 
-function getReadableAuthError(error) {
+function setLoading(loading) {
 
-    if (!error) {
-        return "Something went wrong.";
+    if (!registerButton) {
+        return;
     }
 
 
-    console.error(
-        "Supabase Auth Error:",
-        error
-    );
+    registerButton.disabled =
+        loading;
+
+
+    if (loading) {
+
+        registerButtonText.textContent =
+            "Creating Account...";
+
+
+        registerButtonIcon.className =
+            "fa-solid fa-spinner fa-spin";
+
+    } else {
+
+        registerButtonText.textContent =
+            "Create Account";
+
+
+        registerButtonIcon.className =
+            "fa-solid fa-arrow-right";
+    }
+}
+
+
+/* =========================================================
+   ERROR TRANSLATION
+========================================================= */
+
+function getFriendlyAuthError(error) {
+
+    if (!error) {
+        return "Registration failed.";
+    }
 
 
     const message =
-        error.message || "";
-
-
-    const lower =
-        message.toLowerCase();
+        String(error.message || "").toLowerCase();
 
 
     if (
-        lower.includes("user already registered") ||
-        lower.includes("already registered")
+        message.includes("user already registered")
+    ) {
+
+        return "An account with this email already exists.";
+    }
+
+
+    if (
+        message.includes("email rate limit")
+    ) {
+
+        return "Too many registration attempts. Please wait and try again.";
+    }
+
+
+    if (
+        message.includes("password")
+    ) {
+
+        return "Please use a stronger password with at least 8 characters.";
+    }
+
+
+    if (
+        message.includes("database error saving new user")
     ) {
 
         return (
-            "An account with this email already exists. " +
-            "Please sign in instead."
+            "Supabase could not create the account. " +
+            "Please check the database trigger configuration."
         );
     }
 
 
     if (
-        lower.includes("invalid email")
+        message.includes("invalid email")
     ) {
 
         return "Please enter a valid email address.";
     }
 
 
-    if (
-        lower.includes("password")
-    ) {
-
-        return (
-            "The password does not meet Supabase's requirements."
-        );
-    }
-
-
-    if (
-        lower.includes("database error saving new user")
-    ) {
-
-        return (
-            "Supabase could not create the account. " +
-            "Please check the database trigger and profiles table."
-        );
-    }
-
-
-    if (
-        lower.includes("rate limit")
-    ) {
-
-        return (
-            "Too many registration attempts. " +
-            "Please wait a moment and try again."
-        );
-    }
-
-
-    return message ||
+    return error.message ||
         "Registration failed. Please try again.";
 }
 
@@ -650,58 +618,32 @@ async function registerUser(event) {
     clearMessage();
 
 
-    /* -----------------------------------------------------
-       CHECK SUPABASE
-    ----------------------------------------------------- */
+    /* ---------------------------------------------
+       Check Supabase
+    --------------------------------------------- */
 
-    if (!kidoraSupabase) {
-
-        showMessage(
-            "KIDORA could not connect to Supabase. Please refresh the page."
-        );
+    if (!supabaseClient) {
 
         console.error(
-            "Supabase client is not initialized."
+            "Supabase client is unavailable."
+        );
+
+        showMessage(
+            "KIDORA services are not ready. Please refresh the page.",
+            "error"
         );
 
         return;
     }
 
 
-    /* -----------------------------------------------------
-       VALIDATE FORM
-    ----------------------------------------------------- */
+    /* ---------------------------------------------
+       Validate
+    --------------------------------------------- */
 
-    if (!validateRegistrationForm()) {
+    if (!validateForm()) {
         return;
     }
-
-
-    /* -----------------------------------------------------
-       COLLECT DATA
-    ----------------------------------------------------- */
-
-    const fullName =
-        fullNameInput.value.trim();
-
-    const email =
-        emailInput.value.trim().toLowerCase();
-
-    const password =
-        passwordInput.value;
-
-    const role =
-        getSelectedRole();
-
-
-    console.log(
-        "Registration data:",
-        {
-            fullName,
-            email,
-            role
-        }
-    );
 
 
     setLoading(true);
@@ -709,46 +651,67 @@ async function registerUser(event) {
 
     try {
 
-        /* =================================================
-           CREATE SUPABASE AUTH ACCOUNT
+        const fullName =
+            fullNameInput.value.trim();
 
-           IMPORTANT:
-           We DO NOT manually create a profiles row.
+        const email =
+            emailInput.value
+                .trim()
+                .toLowerCase();
 
-           The PostgreSQL trigger automatically creates:
-           public.profiles
-        ================================================= */
+        const password =
+            passwordInput.value;
+
+        const role =
+            getSelectedRole();
+
 
         console.log(
             "Creating Supabase Auth account..."
         );
 
+        console.log(
+            "Role:",
+            role
+        );
+
+
+        /* =================================================
+           IMPORTANT
+
+           DO NOT INSERT INTO public.profiles HERE.
+
+           The database trigger creates the profile
+           automatically after auth.users is created.
+        ================================================= */
+
 
         const {
             data,
             error
-        } =
-            await kidoraSupabase.auth.signUp({
+        } = await supabaseClient.auth.signUp({
 
-                email: email,
+            email: email,
 
-                password: password,
+            password: password,
 
-                options: {
+            options: {
 
-                    data: {
+                data: {
 
-                        full_name: fullName,
+                    full_name:
+                        fullName,
 
-                        role: role
-                    }
+                    role:
+                        role
                 }
-            });
+            }
+        });
 
 
-        /* -------------------------------------------------
-           HANDLE AUTH ERROR
-        ------------------------------------------------- */
+        /* ---------------------------------------------
+           Auth error
+        --------------------------------------------- */
 
         if (error) {
 
@@ -761,14 +724,14 @@ async function registerUser(event) {
         }
 
 
-        /* -------------------------------------------------
-           VERIFY USER
-        ------------------------------------------------- */
+        /* ---------------------------------------------
+           Safety check
+        --------------------------------------------- */
 
         if (!data || !data.user) {
 
             throw new Error(
-                "Supabase did not return a user."
+                "Supabase did not return a user account."
             );
         }
 
@@ -779,58 +742,48 @@ async function registerUser(event) {
         );
 
 
-        /* =================================================
+        /* ---------------------------------------------
            IMPORTANT
 
-           DO NOT INSERT INTO profiles HERE.
+           The database trigger should now have created:
 
-           Your database trigger does it automatically.
-        ================================================= */
+           public.profiles
+
+           We do NOT manually create it.
+        --------------------------------------------- */
 
 
-        /* -------------------------------------------------
-           EMAIL CONFIRMATION
-        ------------------------------------------------- */
+        /*
+           Supabase email confirmation behavior:
+
+           If email confirmation is enabled,
+           session will normally be null.
+        */
 
         if (!data.session) {
 
-            console.log(
-                "Email confirmation is required."
-            );
-
-
             showMessage(
-                "Account created successfully! Please check your email to verify your account.",
+                "Account created successfully! " +
+                "Please check your email to verify your account.",
                 "success"
             );
 
-
-            /*
-               Give the user time to see the message.
-            */
 
             setTimeout(() => {
 
                 window.location.href =
                     "login.html";
 
-            }, 2500);
+            }, 3000);
 
 
             return;
         }
 
 
-        /* =================================================
-           SESSION EXISTS
-
-           This means email confirmation is disabled.
-        ================================================= */
-
-        console.log(
-            "KIDORA session created successfully."
-        );
-
+        /* ---------------------------------------------
+           Session exists
+        --------------------------------------------- */
 
         showMessage(
             "Account created successfully! Redirecting...",
@@ -840,18 +793,13 @@ async function registerUser(event) {
 
         setTimeout(() => {
 
-            /*
-               Change this if your dashboard filename
-               is different.
-            */
-
             window.location.href =
-                "dashboard.html";
+                "../dashboard.html";
 
         }, 1200);
 
-    }
-    catch (error) {
+
+    } catch (error) {
 
         console.error(
             "KIDORA Registration Error:",
@@ -860,11 +808,12 @@ async function registerUser(event) {
 
 
         showMessage(
-            getReadableAuthError(error)
+            getFriendlyAuthError(error),
+            "error"
         );
 
-    }
-    finally {
+
+    } finally {
 
         setLoading(false);
     }
@@ -875,18 +824,17 @@ async function registerUser(event) {
    FORM EVENT
 ========================================================= */
 
-if (registerForm) {
+if (form) {
 
-    registerForm.addEventListener(
+    form.addEventListener(
         "submit",
         registerUser
     );
 
-}
-else {
+} else {
 
     console.error(
-        "KIDORA registerForm not found."
+        "KIDORA registration form not found."
     );
 }
 
@@ -895,25 +843,30 @@ else {
    INITIALIZATION
 ========================================================= */
 
-console.log(
-    "KIDORA registration page initializing..."
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        console.log(
+            "KIDORA registration page initializing..."
+        );
+
+
+        initializeSupabase();
+
+
+        console.log(
+            "KIDORA registration initialized."
+        );
+
+    }
 );
 
 
-if (!registerForm) {
-
-    console.error(
-        "Registration form is missing."
-    );
-}
-else {
-
-    console.log(
-        "KIDORA registration initialized."
-    );
-}
-
+/* =========================================================
+   DEBUG
+========================================================= */
 
 console.log(
-    "======================================"
+    "KIDORA registration script ready."
 );
