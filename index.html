@@ -1,241 +1,1347 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <meta name="theme-color"
+          content="#07111f">
+
+    <meta name="description"
+          content="KIDORA - Smart occupational therapy monitoring and child activity platform.">
 
     <title>KIDORA | Smart Therapy Monitoring</title>
 
-    <link rel="stylesheet" href="css/global.css">
+
+    <!-- =====================================================
+         GOOGLE FONT
+    ====================================================== -->
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+
+
+    <!-- =====================================================
+         FONT AWESOME
+    ====================================================== -->
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+
+    <!-- =====================================================
+         SUPABASE
+    ====================================================== -->
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+
+    <!-- =====================================================
+         MAIN CSS
+    ====================================================== -->
+
+    <link rel="stylesheet"
+          href="css/main.css">
+
 </head>
+
 
 <body>
 
-    <div class="landing">
 
-        <nav class="navbar">
+<!-- =====================================================
+     NAVIGATION
+===================================================== -->
 
-            <div class="brand">
-                <div class="brand-icon">K</div>
+<header class="navbar">
 
-                <div>
-                    <div class="brand-name">KIDORA</div>
-                    <div class="brand-subtitle">SMART THERAPY</div>
-                </div>
+    <div class="nav-container">
+
+
+        <!-- LOGO -->
+
+        <a href="index.html"
+           class="logo">
+
+            <div class="logo-icon">
+
+                <i class="fa-solid fa-brain"></i>
+
             </div>
 
-            <div class="nav-links">
-                <a href="#features">Features</a>
-                <a href="#about">About</a>
-                <a href="login.html" class="nav-login">Login</a>
+            <div class="logo-text">
+
+                <span>KID</span>
+                <strong>ORA</strong>
+
             </div>
+
+        </a>
+
+
+        <!-- DESKTOP NAVIGATION -->
+
+        <nav class="nav-links">
+
+            <a href="#features">
+                Features
+            </a>
+
+            <a href="#how-it-works">
+                How It Works
+            </a>
+
+            <a href="#technology">
+                Technology
+            </a>
 
         </nav>
 
 
-        <main class="hero">
+        <!-- NAV ACTIONS -->
 
-            <div class="hero-content">
+        <div class="nav-actions">
 
-                <div class="hero-badge">
-                    ● SMART THERAPY MONITORING
-                </div>
+            <a href="auth/login.html"
+               class="btn btn-login">
 
-                <h1>
-                    Technology that
-                    <span>understands.</span>
-                </h1>
+                Login
 
-                <p>
-                    KIDORA connects children, occupational therapists
-                    and smart sensor technology in one simple platform.
-                </p>
+            </a>
 
-                <div class="hero-buttons">
+            <a href="auth/register.html"
+               class="btn btn-primary">
 
-                    <a href="login.html" class="btn-primary">
-                        Get Started
-                        <span>→</span>
-                    </a>
+                Get Started
 
-                    <a href="#features" class="btn-secondary">
-                        Explore KIDORA
-                    </a>
+            </a>
 
-                </div>
+        </div>
 
-                <div class="hero-stats">
 
-                    <div>
-                        <strong>24/7</strong>
-                        <span>Monitoring</span>
-                    </div>
+        <!-- MOBILE MENU BUTTON -->
 
-                    <div>
-                        <strong>Live</strong>
-                        <span>Sensor Data</span>
-                    </div>
+        <button class="mobile-menu-btn"
+                id="mobileMenuBtn"
+                aria-label="Open menu"
+                aria-expanded="false"
+                type="button">
 
-                    <div>
-                        <strong>2</strong>
-                        <span>User Roles</span>
-                    </div>
+            <i class="fa-solid fa-bars"></i>
 
-                </div>
-
-            </div>
-
-
-            <div class="hero-visual">
-
-                <div class="orb orb-one"></div>
-                <div class="orb orb-two"></div>
-
-                <div class="device-card">
-
-                    <div class="device-header">
-                        <span>LIVE MONITOR</span>
-                        <span class="online">
-                            ● ONLINE
-                        </span>
-                    </div>
-
-                    <div class="device-center">
-
-                        <div class="sensor-ring">
-                            <div class="sensor-value">
-                                72
-                                <small>%</small>
-                            </div>
-                        </div>
-
-                        <div class="sensor-label">
-                            Activity Level
-                        </div>
-
-                    </div>
-
-                    <div class="device-data">
-
-                        <div>
-                            <span>Movement</span>
-                            <strong>Active</strong>
-                        </div>
-
-                        <div>
-                            <span>Device</span>
-                            <strong>ESP-001</strong>
-                        </div>
-
-                        <div>
-                            <span>Session</span>
-                            <strong>12:48</strong>
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </main>
-
-
-        <section id="features" class="features">
-
-            <div class="section-heading">
-                <span>WHY KIDORA</span>
-
-                <h2>
-                    One platform.
-                    <br>
-                    Better therapy.
-                </h2>
-            </div>
-
-
-            <div class="feature-grid">
-
-                <div class="feature-card">
-
-                    <div class="feature-icon">📡</div>
-
-                    <h3>Live Monitoring</h3>
-
-                    <p>
-                        Sensor data from the child's device
-                        can be monitored in real time.
-                    </p>
-
-                </div>
-
-
-                <div class="feature-card">
-
-                    <div class="feature-icon">🧠</div>
-
-                    <h3>Therapy Tracking</h3>
-
-                    <p>
-                        Track activities, sessions and
-                        progress over time.
-                    </p>
-
-                </div>
-
-
-                <div class="feature-card">
-
-                    <div class="feature-icon">👩‍⚕️</div>
-
-                    <h3>Therapist Dashboard</h3>
-
-                    <p>
-                        Give therapists a centralized view
-                        of their assigned children.
-                    </p>
-
-                </div>
-
-
-                <div class="feature-card">
-
-                    <div class="feature-icon">📱</div>
-
-                    <h3>Anywhere Access</h3>
-
-                    <p>
-                        Designed for computers, tablets,
-                        phones and eventually Android.
-                    </p>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <footer>
-
-            <div class="brand">
-                <div class="brand-icon">K</div>
-
-                <div>
-                    <div class="brand-name">KIDORA</div>
-                    <div class="brand-subtitle">
-                        SMART THERAPY
-                    </div>
-                </div>
-            </div>
-
-            <p>
-                Smart technology for better therapy.
-            </p>
-
-        </footer>
+        </button>
 
     </div>
+
+</header>
+
+
+
+<!-- =====================================================
+     MOBILE MENU
+===================================================== -->
+
+<div class="mobile-menu"
+     id="mobileMenu">
+
+    <a href="#features">
+        Features
+    </a>
+
+    <a href="#how-it-works">
+        How It Works
+    </a>
+
+    <a href="#technology">
+        Technology
+    </a>
+
+
+    <div class="mobile-menu-actions">
+
+        <a href="auth/login.html"
+           class="btn btn-login">
+
+            Login
+
+        </a>
+
+        <a href="auth/register.html"
+           class="btn btn-primary">
+
+            Get Started
+
+        </a>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<main>
+
+
+<!-- =====================================================
+     HERO
+===================================================== -->
+
+<section class="hero">
+
+
+    <div class="hero-grid"></div>
+
+    <div class="hero-glow hero-glow-1"></div>
+
+    <div class="hero-glow hero-glow-2"></div>
+
+
+    <div class="hero-container">
+
+
+        <!-- LEFT CONTENT -->
+
+        <div class="hero-content">
+
+
+            <div class="status-pill">
+
+                <span class="status-dot"></span>
+
+                SMART THERAPY MONITORING
+
+            </div>
+
+
+            <h1>
+
+                Helping children
+                <span>grow through technology.</span>
+
+            </h1>
+
+
+            <p class="hero-description">
+
+                KIDORA is a smart occupational therapy platform
+                that connects children, therapists and sensor
+                technology to monitor activities, track progress
+                and make therapy more engaging.
+
+            </p>
+
+
+            <div class="hero-buttons">
+
+
+                <a href="auth/register.html"
+                   class="btn btn-primary btn-large">
+
+                    Get Started
+
+                    <i class="fa-solid fa-arrow-right"></i>
+
+                </a>
+
+
+                <a href="#how-it-works"
+                   class="btn btn-outline btn-large">
+
+                    See How It Works
+
+                </a>
+
+            </div>
+
+
+            <!-- TRUST INDICATORS -->
+
+            <div class="hero-trust">
+
+
+                <div class="trust-item">
+
+                    <i class="fa-solid fa-chart-line"></i>
+
+                    <span>
+                        Live Progress
+                    </span>
+
+                </div>
+
+
+                <div class="trust-item">
+
+                    <i class="fa-solid fa-microchip"></i>
+
+                    <span>
+                        Smart Sensors
+                    </span>
+
+                </div>
+
+
+                <div class="trust-item">
+
+                    <i class="fa-solid fa-user-doctor"></i>
+
+                    <span>
+                        Therapist Connected
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- RIGHT VISUAL -->
+
+        <div class="hero-visual">
+
+
+            <div class="dashboard-preview">
+
+
+                <!-- PREVIEW HEADER -->
+
+                <div class="preview-header">
+
+
+                    <div class="preview-brand">
+
+                        <div class="mini-logo">
+
+                            <i class="fa-solid fa-brain"></i>
+
+                        </div>
+
+                        <span>
+                            KIDORA
+                        </span>
+
+                    </div>
+
+
+                    <div class="preview-status">
+
+                        <span></span>
+
+                        DEVICE ONLINE
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- CHILD STATUS CARD -->
+
+                <div class="safety-card">
+
+
+                    <div class="safety-icon">
+
+                        <i class="fa-solid fa-child-reaching"></i>
+
+                    </div>
+
+
+                    <div class="safety-info">
+
+                        <small>
+                            THERAPY STATUS
+                        </small>
+
+                        <h3>
+                            Activity in progress
+                        </h3>
+
+                        <span>
+                            Hand coordination exercise
+                        </span>
+
+                    </div>
+
+
+                    <div class="safe-check">
+
+                        <i class="fa-solid fa-check"></i>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- STAT CARDS -->
+
+                <div class="preview-stats">
+
+
+                    <div class="preview-stat">
+
+                        <div class="stat-icon">
+
+                            <i class="fa-solid fa-chart-simple"></i>
+
+                        </div>
+
+                        <div>
+
+                            <small>
+                                PROGRESS
+                            </small>
+
+                            <strong>
+                                82%
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="preview-stat">
+
+                        <div class="stat-icon">
+
+                            <i class="fa-solid fa-microchip"></i>
+
+                        </div>
+
+                        <div>
+
+                            <small>
+                                DEVICE
+                            </small>
+
+                            <strong>
+                                Connected
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- ACTIVITY -->
+
+                <div class="activity-card">
+
+
+                    <div class="activity-header">
+
+                        <span>
+                            LIVE THERAPY ACTIVITY
+                        </span>
+
+                        <i class="fa-solid fa-ellipsis"></i>
+
+                    </div>
+
+
+
+                    <div class="activity-item">
+
+                        <div class="activity-icon green">
+
+                            <i class="fa-solid fa-hand"></i>
+
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Hand movement detected
+                            </strong>
+
+                            <small>
+                                Just now
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="activity-item">
+
+                        <div class="activity-icon blue">
+
+                            <i class="fa-solid fa-wave-square"></i>
+
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Sensor activity recorded
+                            </strong>
+
+                            <small>
+                                8 seconds ago
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="activity-item">
+
+                        <div class="activity-icon purple">
+
+                            <i class="fa-solid fa-user-doctor"></i>
+
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Therapist monitoring
+                            </strong>
+
+                            <small>
+                                Online now
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- FLOATING ALERT -->
+
+            <div class="floating-alert">
+
+                <div class="alert-icon">
+
+                    <i class="fa-solid fa-chart-line"></i>
+
+                </div>
+
+                <div>
+
+                    <strong>
+                        Progress Updated
+                    </strong>
+
+                    <span>
+                        Therapy data synced
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     FEATURES
+===================================================== -->
+
+<section class="section features-section"
+         id="features">
+
+    <div class="section-container">
+
+
+        <div class="section-heading">
+
+            <div class="section-label">
+                WHY KIDORA
+            </div>
+
+            <h2>
+
+                Technology that
+                <span>supports therapy.</span>
+
+            </h2>
+
+            <p>
+
+                KIDORA brings sensor-based monitoring,
+                therapy activities and progress tracking
+                together in one connected platform.
+
+            </p>
+
+        </div>
+
+
+
+        <div class="features-grid">
+
+
+            <article class="feature-card">
+
+                <div class="feature-icon">
+
+                    <i class="fa-solid fa-microchip"></i>
+
+                </div>
+
+                <h3>
+                    Smart Monitoring
+                </h3>
+
+                <p>
+
+                    ESP32-based devices can capture
+                    movement and activity data during
+                    therapy sessions.
+
+                </p>
+
+            </article>
+
+
+
+            <article class="feature-card">
+
+                <div class="feature-icon">
+
+                    <i class="fa-solid fa-chart-line"></i>
+
+                </div>
+
+                <h3>
+                    Progress Tracking
+                </h3>
+
+                <p>
+
+                    Therapists can monitor activity
+                    performance and observe changes
+                    over multiple sessions.
+
+                </p>
+
+            </article>
+
+
+
+            <article class="feature-card">
+
+                <div class="feature-icon">
+
+                    <i class="fa-solid fa-user-doctor"></i>
+
+                </div>
+
+                <h3>
+                    Therapist Dashboard
+                </h3>
+
+                <p>
+
+                    A dedicated professional dashboard
+                    provides therapists with a centralized
+                    view of their assigned children.
+
+                </p>
+
+            </article>
+
+
+
+            <article class="feature-card">
+
+                <div class="feature-icon">
+
+                    <i class="fa-solid fa-child"></i>
+
+                </div>
+
+                <h3>
+                    Child-Friendly
+                </h3>
+
+                <p>
+
+                    A simple and engaging interface makes
+                    therapy activities easier for children
+                    to understand and follow.
+
+                </p>
+
+            </article>
+
+
+
+            <article class="feature-card">
+
+                <div class="feature-icon">
+
+                    <i class="fa-solid fa-tower-broadcast"></i>
+
+                </div>
+
+                <h3>
+                    Real-Time Data
+                </h3>
+
+                <p>
+
+                    Sensor information can be transmitted
+                    to the KIDORA platform and displayed
+                    without manually refreshing.
+
+                </p>
+
+            </article>
+
+
+
+            <article class="feature-card">
+
+                <div class="feature-icon">
+
+                    <i class="fa-solid fa-mobile-screen"></i>
+
+                </div>
+
+                <h3>
+                    Web & Mobile
+                </h3>
+
+                <p>
+
+                    KIDORA is designed for computers,
+                    tablets and smartphones, with an
+                    Android app planned.
+
+                </p>
+
+            </article>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     HOW IT WORKS
+===================================================== -->
+
+<section class="section how-section"
+         id="how-it-works">
+
+    <div class="section-container">
+
+
+        <div class="section-heading centered">
+
+            <div class="section-label">
+                HOW IT WORKS
+            </div>
+
+            <h2>
+
+                From movement to
+                <span>meaningful insight.</span>
+
+            </h2>
+
+            <p>
+
+                KIDORA connects the child's activity,
+                smart sensors and occupational therapist
+                through one real-time system.
+
+            </p>
+
+        </div>
+
+
+
+        <div class="steps">
+
+
+            <div class="step">
+
+                <div class="step-number">
+                    01
+                </div>
+
+                <div class="step-icon">
+
+                    <i class="fa-solid fa-child-reaching"></i>
+
+                </div>
+
+                <h3>
+                    Activity
+                </h3>
+
+                <p>
+
+                    The child performs a therapy activity
+                    under the guidance of the therapist.
+
+                </p>
+
+            </div>
+
+
+            <div class="step-line"></div>
+
+
+
+            <div class="step">
+
+                <div class="step-number">
+                    02
+                </div>
+
+                <div class="step-icon">
+
+                    <i class="fa-solid fa-microchip"></i>
+
+                </div>
+
+                <h3>
+                    Sense
+                </h3>
+
+                <p>
+
+                    Sensors connected to the ESP32 capture
+                    movement and activity information.
+
+                </p>
+
+            </div>
+
+
+            <div class="step-line"></div>
+
+
+
+            <div class="step">
+
+                <div class="step-number">
+                    03
+                </div>
+
+                <div class="step-icon">
+
+                    <i class="fa-solid fa-cloud-arrow-up"></i>
+
+                </div>
+
+                <h3>
+                    Sync
+                </h3>
+
+                <p>
+
+                    The ESP32 sends the collected data
+                    securely to the KIDORA backend.
+
+                </p>
+
+            </div>
+
+
+            <div class="step-line"></div>
+
+
+
+            <div class="step">
+
+                <div class="step-number">
+                    04
+                </div>
+
+                <div class="step-icon">
+
+                    <i class="fa-solid fa-user-doctor"></i>
+
+                </div>
+
+                <h3>
+                    Understand
+                </h3>
+
+                <p>
+
+                    The therapist sees the activity data
+                    and uses it to understand progress.
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     TECHNOLOGY
+===================================================== -->
+
+<section class="section technology-section"
+         id="technology">
+
+    <div class="section-container">
+
+        <div class="technology-content">
+
+
+            <div class="technology-text">
+
+                <div class="section-label">
+                    THE TECHNOLOGY
+                </div>
+
+                <h2>
+
+                    One connected
+                    <span>therapy ecosystem.</span>
+
+                </h2>
+
+                <p>
+
+                    KIDORA combines embedded sensors,
+                    wireless connectivity, cloud services,
+                    realtime data and role-based web
+                    applications.
+
+                </p>
+
+
+                <div class="technology-list">
+
+
+                    <div class="tech-item">
+
+                        <div class="tech-check">
+
+                            <i class="fa-solid fa-check"></i>
+
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                ESP32 Device
+                            </strong>
+
+                            <span>
+                                Captures therapy activity data
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="tech-item">
+
+                        <div class="tech-check">
+
+                            <i class="fa-solid fa-check"></i>
+
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Sensor Network
+                            </strong>
+
+                            <span>
+                                Measures movement and interaction
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="tech-item">
+
+                        <div class="tech-check">
+
+                            <i class="fa-solid fa-check"></i>
+
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Cloud Backend
+                            </strong>
+
+                            <span>
+                                Stores and processes therapy data
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="tech-item">
+
+                        <div class="tech-check">
+
+                            <i class="fa-solid fa-check"></i>
+
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Role-Based Access
+                            </strong>
+
+                            <span>
+                                Separate child and therapist portals
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- NETWORK VISUAL -->
+
+            <div class="network-visual">
+
+
+                <div class="network-center">
+
+                    <div class="network-center-icon">
+
+                        <i class="fa-solid fa-brain"></i>
+
+                    </div>
+
+                    <strong>
+                        KIDORA
+                    </strong>
+
+                    <span>
+                        SMART THERAPY CORE
+                    </span>
+
+                </div>
+
+
+
+                <div class="network-node node-patient">
+
+                    <i class="fa-solid fa-child"></i>
+
+                    <span>
+                        Child
+                    </span>
+
+                </div>
+
+
+
+                <div class="network-node node-device">
+
+                    <i class="fa-solid fa-microchip"></i>
+
+                    <span>
+                        ESP32
+                    </span>
+
+                </div>
+
+
+
+                <div class="network-node node-cloud">
+
+                    <i class="fa-solid fa-cloud"></i>
+
+                    <span>
+                        Cloud
+                    </span>
+
+                </div>
+
+
+
+                <div class="network-node node-ambulance">
+
+                    <i class="fa-solid fa-user-doctor"></i>
+
+                    <span>
+                        Therapist
+                    </span>
+
+                </div>
+
+
+
+                <div class="network-line line-1"></div>
+
+                <div class="network-line line-2"></div>
+
+                <div class="network-line line-3"></div>
+
+                <div class="network-line line-4"></div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     CTA
+===================================================== -->
+
+<section class="cta-section">
+
+    <div class="cta-container">
+
+
+        <div class="cta-icon">
+
+            <i class="fa-solid fa-brain"></i>
+
+        </div>
+
+
+        <h2>
+            Make therapy smarter.
+        </h2>
+
+
+        <p>
+
+            Connect children, therapists and
+            technology with KIDORA.
+
+        </p>
+
+
+        <div class="cta-buttons">
+
+
+            <a href="auth/register.html"
+               class="btn btn-primary btn-large">
+
+                Create Account
+
+                <i class="fa-solid fa-arrow-right"></i>
+
+            </a>
+
+
+            <a href="auth/login.html"
+               class="btn btn-outline btn-large">
+
+                Sign In
+
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+</main>
+
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer class="footer">
+
+    <div class="footer-container">
+
+
+        <div class="footer-brand">
+
+
+            <a href="index.html"
+               class="logo">
+
+                <div class="logo-icon">
+
+                    <i class="fa-solid fa-brain"></i>
+
+                </div>
+
+                <div class="logo-text">
+
+                    <span>KID</span>
+                    <strong>ORA</strong>
+
+                </div>
+
+            </a>
+
+
+            <p>
+
+                Smart occupational therapy
+                monitoring for better outcomes.
+
+            </p>
+
+        </div>
+
+
+
+        <div class="footer-links">
+
+
+            <div>
+
+                <h4>
+                    Platform
+                </h4>
+
+                <a href="#features">
+                    Features
+                </a>
+
+                <a href="#how-it-works">
+                    How It Works
+                </a>
+
+                <a href="#technology">
+                    Technology
+                </a>
+
+            </div>
+
+
+
+            <div>
+
+                <h4>
+                    Account
+                </h4>
+
+                <a href="auth/login.html">
+                    Login
+                </a>
+
+                <a href="auth/register.html">
+                    Register
+                </a>
+
+            </div>
+
+
+
+            <div>
+
+                <h4>
+                    KIDORA
+                </h4>
+
+                <a href="#">
+                    About
+                </a>
+
+                <a href="#">
+                    Privacy
+                </a>
+
+                <a href="#">
+                    Terms
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <div class="footer-bottom">
+
+        <span>
+            © 2026 KIDORA. All rights reserved.
+        </span>
+
+        <span>
+            Built for smarter therapy.
+        </span>
+
+    </div>
+
+</footer>
+
+
+
+<!-- =====================================================
+     APP JAVASCRIPT
+===================================================== -->
+
+<script src="js/app.js"></script>
+
 
 </body>
 </html>

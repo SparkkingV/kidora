@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <meta name="theme-color"
+          content="#f8fafc">
+
+    <meta name="description"
+          content="Create your KIDORA account.">
+
+    <title>KIDORA | Create Account</title>
+
+
+    <!-- =====================================================
+         GOOGLE FONT
+    ====================================================== -->
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+
+
+    <!-- =====================================================
+         FONT AWESOME
+    ====================================================== -->
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+
+    <!-- =====================================================
+         SUPABASE
+    ====================================================== -->
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+
+    <!-- =====================================================
+         MAIN CSS
+    ====================================================== -->
+
+    <link rel="stylesheet"
+          href="../css/main.css">
+
+
+    <!-- =====================================================
+         AUTH CSS
+    ====================================================== -->
+
+    <link rel="stylesheet"
+          href="../css/auth.css">
+
+</head>
+
+
+<body>
+
+
+<div class="auth-page">
+
+
+    <!-- =====================================================
+         BACKGROUND
+    ====================================================== -->
+
+    <div class="auth-glow auth-glow-one"></div>
+
+    <div class="auth-glow auth-glow-two"></div>
+
+
+    <!-- =====================================================
+         AUTH WRAPPER
+    ====================================================== -->
+
+    <main class="auth-wrapper">
+
+
+        <!-- =================================================
+             LOGO
+        ================================================== -->
+
+        <a href="../index.html"
+           class="auth-logo"
+           aria-label="KIDORA Home">
+
+            <div class="logo-icon">
+
+                <i class="fa-solid fa-brain"
+                   aria-hidden="true"></i>
+
+            </div>
+
+
+            <div class="logo-text">
+
+                <span>KID</span>
+
+                <strong>ORA</strong>
+
+            </div>
+
+        </a>
+
+
+
+        <!-- =================================================
+             REGISTER CARD
+        ================================================== -->
+
+        <section class="auth-card">
+
+
+            <!-- =================================================
+                 HEADING
+            ================================================== -->
+
+            <div class="auth-heading">
+
+                <div class="auth-label">
+                    GET STARTED
+                </div>
+
+
+                <h1>
+                    Create your
+                    <span>KIDORA</span>
+                    account.
+                </h1>
+
+
+                <p>
+                    Join the connected therapy
+                    monitoring platform.
+                </p>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 AUTH MESSAGE
+            ================================================== -->
+
+            <div id="authMessage"
+                 class="auth-message"
+                 role="alert"
+                 aria-live="polite">
+            </div>
+
+
+
+            <!-- =================================================
+                 REGISTER FORM
+            ================================================== -->
+
+            <form id="registerForm">
+
+
+                <!-- =============================================
+                     FULL NAME
+                ============================================== -->
+
+                <div class="form-group">
+
+                    <label for="fullName">
+                        Full Name
+                    </label>
+
+
+                    <div class="input-wrapper">
+
+                        <i class="fa-solid fa-user"
+                           aria-hidden="true"></i>
+
+
+                        <input
+                            type="text"
+                            id="fullName"
+                            name="fullName"
+                            placeholder="Enter your full name"
+                            autocomplete="name"
+                            minlength="2"
+                            maxlength="100"
+                            required>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- =============================================
+                     EMAIL
+                ============================================== -->
+
+                <div class="form-group">
+
+                    <label for="email">
+                        Email Address
+                    </label>
+
+
+                    <div class="input-wrapper">
+
+                        <i class="fa-solid fa-envelope"
+                           aria-hidden="true"></i>
+
+
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            placeholder="you@example.com"
+                            autocomplete="email"
+                            maxlength="255"
+                            required>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- =============================================
+                     ROLE
+                ============================================== -->
+
+                <div class="form-group">
+
+                    <label>
+                        I am registering as
+                    </label>
+
+
+                    <div class="role-selector">
+
+
+                        <!-- =====================================
+                             CHILD
+                        ====================================== -->
+
+                        <label class="role-option">
+
+                            <input
+                                type="radio"
+                                name="role"
+                                value="child"
+                                checked
+                                required>
+
+
+                            <div class="role-card">
+
+                                <div class="role-icon">
+
+                                    <i class="fa-solid fa-child"
+                                       aria-hidden="true"></i>
+
+                                </div>
+
+
+                                <div class="role-info">
+
+                                    <strong>
+                                        Child
+                                    </strong>
+
+                                    <span>
+                                        Therapy participant
+                                    </span>
+
+                                </div>
+
+
+                                <div class="role-check">
+
+                                    <i class="fa-solid fa-check"
+                                       aria-hidden="true"></i>
+
+                                </div>
+
+                            </div>
+
+                        </label>
+
+
+
+                        <!-- =====================================
+                             THERAPIST
+                        ====================================== -->
+
+                        <label class="role-option">
+
+                            <input
+                                type="radio"
+                                name="role"
+                                value="therapist">
+
+
+                            <div class="role-card">
+
+                                <div class="role-icon">
+
+                                    <i class="fa-solid fa-user-doctor"
+                                       aria-hidden="true"></i>
+
+                                </div>
+
+
+                                <div class="role-info">
+
+                                    <strong>
+                                        Therapist
+                                    </strong>
+
+                                    <span>
+                                        Occupational therapist
+                                    </span>
+
+                                </div>
+
+
+                                <div class="role-check">
+
+                                    <i class="fa-solid fa-check"
+                                       aria-hidden="true"></i>
+
+                                </div>
+
+                            </div>
+
+                        </label>
+
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- =============================================
+                     PASSWORD
+                ============================================== -->
+
+                <div class="form-group">
+
+                    <label for="password">
+                        Password
+                    </label>
+
+
+                    <div class="input-wrapper">
+
+                        <i class="fa-solid fa-lock"
+                           aria-hidden="true"></i>
+
+
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            placeholder="Create a password"
+                            autocomplete="new-password"
+                            minlength="8"
+                            maxlength="128"
+                            required>
+
+
+                        <button
+                            type="button"
+                            class="password-toggle"
+                            id="togglePassword"
+                            aria-label="Show password"
+                            aria-controls="password">
+
+                            <i class="fa-solid fa-eye"
+                               aria-hidden="true"></i>
+
+                        </button>
+
+                    </div>
+
+
+
+                    <!-- PASSWORD STRENGTH -->
+
+                    <div class="password-strength">
+
+                        <div class="strength-bar">
+
+                            <span id="strengthBar"></span>
+
+                        </div>
+
+
+                        <small id="strengthText">
+                            Use at least 8 characters
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- =============================================
+                     CONFIRM PASSWORD
+                ============================================== -->
+
+                <div class="form-group">
+
+                    <label for="confirmPassword">
+                        Confirm Password
+                    </label>
+
+
+                    <div class="input-wrapper">
+
+                        <i class="fa-solid fa-lock"
+                           aria-hidden="true"></i>
+
+
+                        <input
+                            type="password"
+                            id="confirmPassword"
+                            name="confirmPassword"
+                            placeholder="Confirm your password"
+                            autocomplete="new-password"
+                            minlength="8"
+                            maxlength="128"
+                            required>
+
+
+                        <button
+                            type="button"
+                            class="password-toggle"
+                            id="toggleConfirmPassword"
+                            aria-label="Show password"
+                            aria-controls="confirmPassword">
+
+                            <i class="fa-solid fa-eye"
+                               aria-hidden="true"></i>
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- =============================================
+                     TERMS
+                ============================================== -->
+
+                <label class="terms-check">
+
+                    <input
+                        type="checkbox"
+                        id="terms"
+                        name="terms"
+                        required>
+
+
+                    <span>
+
+                        I agree to the
+
+                        <a href="#"
+                           onclick="return false;">
+                            Terms of Service
+                        </a>
+
+                        and
+
+                        <a href="#"
+                           onclick="return false;">
+                            Privacy Policy
+                        </a>.
+
+                    </span>
+
+                </label>
+
+
+
+                <!-- =============================================
+                     SUBMIT
+                ============================================== -->
+
+                <button
+                    type="submit"
+                    class="btn btn-primary auth-submit"
+                    id="registerButton">
+
+                    <span id="registerButtonText">
+                        Create Account
+                    </span>
+
+                    <i class="fa-solid fa-arrow-right"
+                       id="registerButtonIcon"
+                       aria-hidden="true"></i>
+
+                </button>
+
+
+            </form>
+
+
+
+            <!-- =================================================
+                 LOGIN
+            ================================================== -->
+
+            <div class="auth-divider">
+
+                <span>
+                    Already have an account?
+                </span>
+
+            </div>
+
+
+
+            <a href="login.html"
+               class="register-link">
+
+                Sign in instead
+
+                <i class="fa-solid fa-arrow-right"
+                   aria-hidden="true"></i>
+
+            </a>
+
+
+        </section>
+
+
+
+        <!-- =================================================
+             BACK HOME
+        ================================================== -->
+
+        <a href="../index.html"
+           class="back-home">
+
+            <i class="fa-solid fa-arrow-left"
+               aria-hidden="true"></i>
+
+            Back to KIDORA
+
+        </a>
+
+
+    </main>
+
+
+</div>
+
+
+
+<!-- =========================================================
+     REGISTER JAVASCRIPT
+========================================================= -->
+
+<script src="../js/register.js"></script>
+
+
+</body>
+
+</html>
